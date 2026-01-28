@@ -1,14 +1,42 @@
+body {
+    background-color: #201f1f;
+}
+
 p{
   text-align: justify;
   max-width:800px;
   margin: auto;
   margin-bottom: 20px;
+  color: white
 }
 ul {
   text-align: left;
   list-style-position: inside;
   margin-left: 20px;
+  color: white
   }
 li {
   margin-bottom: 5px;
+  color: white
 }    
+
+.key {
+    border: 1px solid white;
+    border-radius: 2px;
+    display: inline-block;
+    padding: 5px 10px;
+}
+
+.jspsych-content {
+  color: white;
+}
+
+.jspsych-btn {
+  background-color: #111;
+  color: white;
+  border: 1px solid white;
+}
+
+.jspsych-btn:hover {
+  background-color: #222
+}
