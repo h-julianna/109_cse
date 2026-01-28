@@ -5,26 +5,26 @@ import pandas as pd
 # global
 TRIALS_PER_SET = 100
 TOTAL_SETS = 10
-colors = ["black", "red", "green", "yellow", "blue"]
+colors = ["magenta", "red", "green", "yellow", "blue"]
 
-#black stimuli
+#magenta stimuli
 #defining stimulus set (monetary=0 is neutral, monetary=1 is monetary duh)
-black_vertical_con = [
-    {"prime": "le\nle\nle", "probe": "le", "congruency": "congruent", "correct_response": "n", "name": "black_vertical_con_1", "monetary": 0},
-    {"prime": "fel\nfel\nfel", "probe": "fel", "congruency": "congruent", "correct_response": "j", "name": "vertical_con_2", "monetary": 0}
+magenta_vertical_con = [
+    {"prime": "le\nle\nle", "probe": "le", "congruency": "congruent", "correct_response": "n", "name": "magenta_vertical_con_1", "monetary": 0},
+    {"prime": "fel\nfel\nfel", "probe": "fel", "congruency": "congruent", "correct_response": "e", "name": "magenta_vertical_con_2", "monetary": 0}
 ]
-black_vertical_inc = [
-    {"prime": "fel\nfel\nfel", "probe": "le", "congruency": "incongruent", "correct_response": "n", "name": "black_vertical_incon_1", "monetary": 0},
-    {"prime": "le\nle\nle", "probe": "fel", "congruency": "incongruent", "correct_response": "j", "name": "black_vertical_incon_2", "monetary": 0}
+magenta_vertical_incon = [
+    {"prime": "fel\nfel\nfel", "probe": "le", "congruency": "incongruent", "correct_response": "n", "name": "magenta_vertical_incon_1", "monetary": 0},
+    {"prime": "le\nle\nle", "probe": "fel", "congruency": "incongruent", "correct_response": "e", "name": "magenta_vertical_incon_2", "monetary": 0}
 ]
 
-black_horizontal_con = [
-    {"prime": "bal\nbal\nbal", "probe": "bal", "congruency": "congruent", "correct_response": "f", "name": "black_horizontal_con_1", "monetary": 0},
-    {"prime": "jobb\njobb\njobb", "probe": "jobb", "congruency": "congruent", "correct_response": "g", "name": "black_horizontal_con_2", "monetary": 0}
+magenta_horizontal_con = [
+    {"prime": "bal\nbal\nbal", "probe": "bal", "congruency": "congruent", "correct_response": "a", "name": "magenta_horizontal_con_1", "monetary": 0},
+    {"prime": "jobb\njobb\njobb", "probe": "jobb", "congruency": "congruent", "correct_response": "l", "name": "magenta_horizontal_con_2", "monetary": 0}
 ]
-black_horizontal_incon = [
-    {"prime": "bal\nbal\nbal", "probe": "jobb", "congruency": "incongruent", "correct_response": "g", "name": "black_horizontal_incon_1", "monetary": 0},
-    {"prime": "jobb\njobb\njobb", "probe": "bal", "congruency": "incongruent", "correct_response": "f", "name": "black_horizontal_incon_2", "monetary": 0}
+magenta_horizontal_incon = [
+    {"prime": "bal\nbal\nbal", "probe": "jobb", "congruency": "incongruent", "correct_response": "l", "name": "magenta_horizontal_incon_1", "monetary": 0},
+    {"prime": "jobb\njobb\njobb", "probe": "bal", "congruency": "incongruent", "correct_response": "a", "name": "magenta_horizontal_incon_2", "monetary": 0}
 ]
 #red stimuli
 red_vertical_con = [
@@ -37,8 +37,8 @@ red_vertical_incon = [
 ]
 
 red_horizontal_con = [
-    {"prime":"bal\nbal\nbal", "probe":"bal", "congruency":"congruent", "correct_response":"l", "name":"red_horizontal_con_1", "color":"red", "monetary": 1},
-    {"prime":"jobb\njobb\njobb", "probe":"jobb", "congruency":"congruent", "correct_response":"a", "name":"red_horizontal_con_2", "color":"red", "monetary": 1}
+    {"prime":"bal\nbal\nbal", "probe":"bal", "congruency":"congruent", "correct_response":"a", "name":"red_horizontal_con_1", "color":"red", "monetary": 1},
+    {"prime":"jobb\njobb\njobb", "probe":"jobb", "congruency":"congruent", "correct_response":"l", "name":"red_horizontal_con_2", "color":"red", "monetary": 1}
 ]
 red_horizontal_incon = [
     {"prime":"bal\nbal\nbal", "probe":"jobb", "congruency":"incongruent", "correct_response":"l", "name":"red_horizontal_incon_1", "color":"red", "monetary": 1},
@@ -55,8 +55,8 @@ green_vertical_incon = [
 ]
 
 green_horizontal_con = [
-    {"prime":"bal\nbal\nbal", "probe":"bal", "congruency":"congruent", "correct_response":"l", "name":"green_horizontal_con_1", "color":"green", "monetary": 1},
-    {"prime":"jobb\njobb\njobb", "probe":"jobb", "congruency":"congruent", "correct_response":"a", "name":"green_horizontal_con_2", "color":"green", "monetary": 1}
+    {"prime":"bal\nbal\nbal", "probe":"bal", "congruency":"congruent", "correct_response":"a", "name":"green_horizontal_con_1", "color":"green", "monetary": 1},
+    {"prime":"jobb\njobb\njobb", "probe":"jobb", "congruency":"congruent", "correct_response":"l", "name":"green_horizontal_con_2", "color":"green", "monetary": 1}
 ]
 green_horizontal_incon = [
     {"prime":"bal\nbal\nbal", "probe":"jobb", "congruency":"incongruent", "correct_response":"l", "name":"green_horizontal_incon_1", "color":"green", "monetary": 1},
@@ -73,8 +73,8 @@ yellow_vertical_incon = [
 ]
 
 yellow_horizontal_con = [
-    {"prime":"bal\nbal\nbal", "probe":"bal", "congruency":"congruent", "correct_response":"l", "name":"yellow_horizontal_con_1", "color":"yellow", "monetary": 0},
-    {"prime":"jobb\njobb\njobb", "probe":"jobb", "congruency":"congruent", "correct_response":"a", "name":"yellow_horizontal_con_2", "color":"yellow", "monetary": 0}
+    {"prime":"bal\nbal\nbal", "probe":"bal", "congruency":"congruent", "correct_response":"a", "name":"yellow_horizontal_con_1", "color":"yellow", "monetary": 0},
+    {"prime":"jobb\njobb\njobb", "probe":"jobb", "congruency":"congruent", "correct_response":"l", "name":"yellow_horizontal_con_2", "color":"yellow", "monetary": 0}
 ]
 yellow_horizontal_incon = [
     {"prime":"bal\nbal\nbal", "probe":"jobb", "congruency":"incongruent", "correct_response":"l", "name":"yellow_horizontal_incon_1", "color":"yellow", "monetary": 0},
@@ -92,8 +92,8 @@ blue_vertical_incon = [
 ]
 
 blue_horizontal_con = [
-    {"prime":"bal\nbal\nbal", "probe":"bal", "congruency":"congruent", "correct_response":"l", "name":"blue_horizontal_con_1", "color":"blue", "monetary": 0},
-    {"prime":"jobb\njobb\njobb", "probe":"jobb", "congruency":"congruent", "correct_response":"a", "name":"blue_horizontal_con_2", "color":"blue", "monetary": 0}
+    {"prime":"bal\nbal\nbal", "probe":"bal", "congruency":"congruent", "correct_response":"a", "name":"blue_horizontal_con_1", "color":"blue", "monetary": 0},
+    {"prime":"jobb\njobb\njobb", "probe":"jobb", "congruency":"congruent", "correct_response":"l", "name":"blue_horizontal_con_2", "color":"blue", "monetary": 0}
 ]
 blue_horizontal_incon = [
     {"prime":"bal\nbal\nbal", "probe":"jobb", "congruency":"incongruent", "correct_response":"l", "name":"blue_horizontal_incon_1", "color":"blue", "monetary": 0},
@@ -101,8 +101,8 @@ blue_horizontal_incon = [
 ]
 
 vertical_group = [
-    black_vertical_con,
-    black_vertical_inc,
+    magenta_vertical_con,
+    magenta_vertical_incon,
     red_vertical_con,
     red_vertical_incon,
     green_vertical_con,
@@ -113,8 +113,8 @@ vertical_group = [
     blue_vertical_incon]
 
 horizontal_group = [
-    black_horizontal_con,
-    black_horizontal_incon,
+    magenta_horizontal_con,
+    magenta_horizontal_incon,
     red_horizontal_con,
     red_horizontal_incon,
     green_horizontal_con,
@@ -153,7 +153,7 @@ def generate_trial_block(trials_per_block=100):
     #+1 first trial
     first_orientation = "vertical" if "vertical" in block[0]["name"] else "horizontal" #checks orientation of first trial
     opposite_group = vertical_group if first_orientation == "horizontal" else horizontal_group
-    allowed_colors = ["black", "yellow", "blue"] #only neutrals allowed
+    allowed_colors = ["magenta", "yellow", "blue"] #only neutrals allowed
     color_idx = random.choice([colors.index(c) for c in allowed_colors])
     color_slice = color_idx * 2
     congruency_idx = color_slice + random.choice([0, 1])
