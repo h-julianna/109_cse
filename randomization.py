@@ -1,224 +1,304 @@
 import random
 import json
+import signal
+import sys
+import os
 import pandas as pd
 
-# global
-TRIALS_PER_SET = 100
-TOTAL_SETS = 10
-colors = ["magenta", "red", "green", "yellow", "blue"]
+######### Stimulus definitions ########
 
-#magenta stimuli
-#defining stimulus set (monetary=0 is neutral, monetary=1 is monetary duh)
-magenta_vertical_con = [
-    {"prime": "le\nle\nle", "probe": "le", "congruency": "congruent", "correct_response": "n", "name": "magenta_vertical_con_1", "monetary": 0},
-    {"prime": "fel\nfel\nfel", "probe": "fel", "congruency": "congruent", "correct_response": "e", "name": "magenta_vertical_con_2", "monetary": 0}
-]
-magenta_vertical_incon = [
-    {"prime": "fel\nfel\nfel", "probe": "le", "congruency": "incongruent", "correct_response": "n", "name": "magenta_vertical_incon_1", "monetary": 0},
-    {"prime": "le\nle\nle", "probe": "fel", "congruency": "incongruent", "correct_response": "e", "name": "magenta_vertical_incon_2", "monetary": 0}
-]
+def get_vertical_con_list():
+    return [
+        {"prime": "le\nle\nle", "probe": "le", "congruency": "congruent", "correct_response": "n", "name": "vertical_con_1"},
+        {"prime": "fel\nfel\nfel", "probe": "fel", "congruency": "congruent", "correct_response": "e", "name": "vertical_con_2"}
+    ]
 
-magenta_horizontal_con = [
-    {"prime": "bal\nbal\nbal", "probe": "bal", "congruency": "congruent", "correct_response": "a", "name": "magenta_horizontal_con_1", "monetary": 0},
-    {"prime": "jobb\njobb\njobb", "probe": "jobb", "congruency": "congruent", "correct_response": "l", "name": "magenta_horizontal_con_2", "monetary": 0}
-]
-magenta_horizontal_incon = [
-    {"prime": "bal\nbal\nbal", "probe": "jobb", "congruency": "incongruent", "correct_response": "l", "name": "magenta_horizontal_incon_1", "monetary": 0},
-    {"prime": "jobb\njobb\njobb", "probe": "bal", "congruency": "incongruent", "correct_response": "a", "name": "magenta_horizontal_incon_2", "monetary": 0}
-]
-#red stimuli
-red_vertical_con = [
-    {"prime": "le\nle\nle", "probe":"le", "congruency":"congruent", "correct_response":"n", "name":"red_vertical_con_1", "color":"red", "monetary": 1},
-    {"prime":"fel\nfel\nfel", "probe":"fel", "congruency":"congruent", "correct_response":"e", "name":"red_vertical_con_2", "color":"red", "monetary": 1}
-]
-red_vertical_incon = [
-    {"prime":"fel\nfel\nfel", "probe":"le", "congruency":"incongruent", "correct_response":"n", "name":"red_vertical_incon_1", "color":"red", "monetary": 1},
-    {"prime":"le\nle\nle", "probe":"fel", "congruency":"incongruent", "correct_response":"e", "name":"red_vertical_incon_2", "color":"red", "monetary": 1}
-]
+def get_vertical_inc_list():
+    return [
+        {"prime": "fel\nfel\nfel", "probe": "le", "congruency": "incongruent", "correct_response": "n", "name": "vertical_incon_1"},
+        {"prime": "le\nle\nle", "probe": "fel", "congruency": "incongruent", "correct_response": "e", "name": "vertical_incon_2"}
+    ]
 
-red_horizontal_con = [
-    {"prime":"bal\nbal\nbal", "probe":"bal", "congruency":"congruent", "correct_response":"a", "name":"red_horizontal_con_1", "color":"red", "monetary": 1},
-    {"prime":"jobb\njobb\njobb", "probe":"jobb", "congruency":"congruent", "correct_response":"l", "name":"red_horizontal_con_2", "color":"red", "monetary": 1}
-]
-red_horizontal_incon = [
-    {"prime":"bal\nbal\nbal", "probe":"jobb", "congruency":"incongruent", "correct_response":"l", "name":"red_horizontal_incon_1", "color":"red", "monetary": 1},
-    {"prime":"jobb\njobb\njobb", "probe":"bal", "congruency":"incongruent", "correct_response":"a", "name":"red_horizontal_incon_2", "color":"red", "monetary": 1}
-]
-#green stimuli
-green_vertical_con = [
-    {"prime":"le\nle\nle", "probe":"le", "congruency":"congruent", "correct_response":"n", "name":"green_vertical_con_1", "color":"green", "monetary": 1},
-    {"prime":"fel\nfel\nfel", "probe":"fel", "congruency":"congruent", "correct_response":"e", "name":"green_vertical_con_2", "color":"green", "monetary": 1}
-]
-green_vertical_incon = [
-    {"prime":"fel\nfel\nfel", "probe":"le", "congruency":"incongruent", "correct_response":"n", "name":"green_vertical_incon_1", "color":"green", "monetary": 1},
-    {"prime":"le\nle\nle", "probe":"fel", "congruency":"incongruent", "correct_response":"e", "name":"green_vertical_incon_2", "color":"green", "monetary": 1}
-]
+def get_horizontal_con_list():
+    return [
+        {"prime": "bal\nbal\nbal", "probe": "bal", "congruency": "congruent", "correct_response": "a", "name": "horizontal_con_1"},
+        {"prime": "jobb\njobb\njobb", "probe": "jobb", "congruency": "congruent", "correct_response": "l", "name": "horizontal_con_2"}
+    ]
 
-green_horizontal_con = [
-    {"prime":"bal\nbal\nbal", "probe":"bal", "congruency":"congruent", "correct_response":"a", "name":"green_horizontal_con_1", "color":"green", "monetary": 1},
-    {"prime":"jobb\njobb\njobb", "probe":"jobb", "congruency":"congruent", "correct_response":"l", "name":"green_horizontal_con_2", "color":"green", "monetary": 1}
-]
-green_horizontal_incon = [
-    {"prime":"bal\nbal\nbal", "probe":"jobb", "congruency":"incongruent", "correct_response":"l", "name":"green_horizontal_incon_1", "color":"green", "monetary": 1},
-    {"prime":"jobb\njobb\njobb", "probe":"bal", "congruency":"incongruent", "correct_response":"a", "name":"green_horizontal_incon_2", "color":"green", "monetary": 1}
-]
-#yellow stimuli
-yellow_vertical_con = [
-    {"prime":"le\nle\nle", "probe":"le", "congruency":"congruent", "correct_response":"n", "name":"yellow_vertical_con_1", "color":"yellow", "monetary": 0},
-    {"prime":"fel\nfel\nfel", "probe":"fel", "congruency":"congruent", "correct_response":"e", "name":"yellow_vertical_con_2", "color":"yellow", "monetary": 0}
-]
-yellow_vertical_incon = [
-    {"prime":"fel\nfel\nfel", "probe":"le", "congruency":"incongruent", "correct_response":"n", "name":"yellow_vertical_incon_1", "color":"yellow", "monetary": 0},
-    {"prime":"le\nle\nle", "probe":"fel", "congruency":"incongruent", "correct_response":"e", "name":"yellow_vertical_incon_2", "color":"yellow", "monetary": 0}
-]
+def get_horizontal_incon_list():
+    return [
+        {"prime": "bal\nbal\nbal", "probe": "jobb", "congruency": "incongruent", "correct_response": "l", "name": "horizontal_incon_1"},
+        {"prime": "jobb\njobb\njobb", "probe": "bal", "congruency": "incongruent", "correct_response": "a", "name": "horizontal_incon_2"}
+    ]
 
-yellow_horizontal_con = [
-    {"prime":"bal\nbal\nbal", "probe":"bal", "congruency":"congruent", "correct_response":"a", "name":"yellow_horizontal_con_1", "color":"yellow", "monetary": 0},
-    {"prime":"jobb\njobb\njobb", "probe":"jobb", "congruency":"congruent", "correct_response":"l", "name":"yellow_horizontal_con_2", "color":"yellow", "monetary": 0}
-]
-yellow_horizontal_incon = [
-    {"prime":"bal\nbal\nbal", "probe":"jobb", "congruency":"incongruent", "correct_response":"l", "name":"yellow_horizontal_incon_1", "color":"yellow", "monetary": 0},
-    {"prime":"jobb\njobb\njobb", "probe":"bal", "congruency":"incongruent", "correct_response":"a", "name":"yellow_horizontal_incon_2", "color":"yellow", "monetary": 0}
-]
+######### STAGE 1: Generating congruency-balanced blocks ########
 
-#blue stimuli
-blue_vertical_con = [
-    {"prime":"le\nle\nle", "probe":"le", "congruency":"congruent", "correct_response":"n", "name":"blue_vertical_con_1", "color":"blue", "monetary": 0},
-    {"prime":"fel\nfel\nfel", "probe":"fel", "congruency":"congruent", "correct_response":"e", "name":"blue_vertical_con_2", "color":"blue", "monetary": 0}
-]
-blue_vertical_incon = [
-    {"prime":"fel\nfel\nfel", "probe":"le", "congruency":"incongruent", "correct_response":"n", "name":"blue_vertical_incon_1", "color":"blue", "monetary": 0},
-    {"prime":"le\nle\nle", "probe":"fel", "congruency":"incongruent", "correct_response":"e", "name":"blue_vertical_incon_2", "color":"blue", "monetary": 0}
-]
+def generate_blocks():
+    stimulus_set = []
+    relay = 0
+    congruency_list = []
+    trial_count = 100
+    trial_rate = []
 
-blue_horizontal_con = [
-    {"prime":"bal\nbal\nbal", "probe":"bal", "congruency":"congruent", "correct_response":"a", "name":"blue_horizontal_con_1", "color":"blue", "monetary": 0},
-    {"prime":"jobb\njobb\njobb", "probe":"jobb", "congruency":"congruent", "correct_response":"l", "name":"blue_horizontal_con_2", "color":"blue", "monetary": 0}
-]
-blue_horizontal_incon = [
-    {"prime":"bal\nbal\nbal", "probe":"jobb", "congruency":"incongruent", "correct_response":"l", "name":"blue_horizontal_incon_1", "color":"blue", "monetary": 0},
-    {"prime":"jobb\njobb\njobb", "probe":"bal", "congruency":"incongruent", "correct_response":"a", "name":"blue_horizontal_incon_2", "color":"blue", "monetary": 0}
-]
+    def stimulus_finder(group_type):
+        if group_type == "vertical":
+            group = [get_vertical_con_list(), get_vertical_inc_list()]
+        else:
+            group = [get_horizontal_con_list(), get_horizontal_incon_list()]
+        congruency = random.randint(0, len(group) - 1)
+        stimulus = random.randint(0, len(group[congruency]) - 1)
+        stimulus_set.append(group[congruency][stimulus])
 
-vertical_group = [
-    magenta_vertical_con,
-    magenta_vertical_incon,
-    red_vertical_con,
-    red_vertical_incon,
-    green_vertical_con,
-    green_vertical_incon,
-    yellow_vertical_con,
-    yellow_vertical_incon,
-    blue_vertical_con,
-    blue_vertical_incon]
-
-horizontal_group = [
-    magenta_horizontal_con,
-    magenta_horizontal_incon,
-    red_horizontal_con,
-    red_horizontal_incon,
-    green_horizontal_con,
-    green_horizontal_incon,
-    yellow_horizontal_con,
-    yellow_horizontal_incon,
-    blue_horizontal_con,
-    blue_horizontal_incon]
-
-#for 50-50 congruency
-def half_split(n):
-    return n // 2, n - n // 2
-
-def generate_trial_block(trials_per_block=100):
-    block = []
-    relay = 0  # for orientation alternation
-
-    for i in range(trials_per_block):
+    def group_relay():
+        nonlocal relay
         if relay == 0:
-            group = horizontal_group
+            stimulus_finder("horizontal")
             relay = 1
         else:
-            group = vertical_group
+            stimulus_finder("vertical")
             relay = 0
 
-        #picking colour
-        color_idx = random.choice(range(0, len(colors)))
-        color_slice = color_idx * 2
-        congruency_idx = color_slice + random.choice([0, 1])
-        trial_list = group[congruency_idx]
-        trial = random.choice(trial_list).copy()
-        trial["color"] = colors[color_idx]
+    def set_factory(times):
+        for _ in range(times):
+            group_relay()
 
-        block.append(trial)
+    def factor():
+        nonlocal trial_rate
+        set_factory(trial_count)
+        con_count = sum(1 for i in stimulus_set if i["congruency"] == "congruent")
+        incon_count = sum(1 for i in stimulus_set if i["congruency"] == "incongruent")
+        trial_rate = [con_count / trial_count, incon_count / trial_count]
 
-    #+1 first trial
-    first_orientation = "vertical" if "vertical" in block[0]["name"] else "horizontal" #checks orientation of first trial
-    opposite_group = vertical_group if first_orientation == "horizontal" else horizontal_group
-    allowed_colors = ["magenta", "yellow", "blue"] #only neutrals allowed
-    color_idx = random.choice([colors.index(c) for c in allowed_colors])
-    color_slice = color_idx * 2
-    congruency_idx = color_slice + random.choice([0, 1])
-    trial_list = opposite_group[congruency_idx]
-    first_trial = random.choice(trial_list).copy()
-    first_trial["color"] = colors[color_idx]
-    block.insert(0, first_trial)
-    
-    monetary_block = [block[0]]
+    print("Stage 1: Generating blocks.")
+    while True:
+        restriction_check = False
 
-    monetary_trials = [t for t in block if t["monetary"] == 1]
-    non_monetary_trials = [t for t in block if t["monetary"] == 0]
+        if trial_rate == [0.5, 0.5]:
+            group_relay()
 
-    last_was_monetary = False  #first trial always neutral
-    while monetary_trials or non_monetary_trials:
-        if last_was_monetary:
-            monetary_block.append(non_monetary_trials.pop(0))
-            last_was_monetary = False
-        else:
-            if monetary_trials:
-                monetary_block.append(monetary_trials.pop(0))
-                last_was_monetary = True
-            elif non_monetary_trials:
-                monetary_block.append(non_monetary_trials.pop(0))
-                last_was_monetary = False
-    #ensure no monetary trials are consecutive
-    """for i in range(1, len(block)):
-        if block[i]["monetary"] == 1 and block[i - 1]["monetary"] == 1:
-            for j in range(i + 1, len(block)):
-                if block[j]["monetary"] != 1 and (j == len(block) - 1 or block[j + 1]["monetary"] != 1):
-                    block[i], block[j] = block[j], block[i]
-                    break"""
+            trial_block = pd.DataFrame(
+                stimulus_set,
+                columns=["prime", "probe", "congruency", "correct_response", "name"]
+            )
+            trial_block["previous_congruency"] = trial_block["congruency"].shift(1)
+            trial_block["con_pair"] = (
+                trial_block["previous_congruency"] + "-" + trial_block["congruency"]
+            )
+            pair_counts = trial_block["con_pair"].value_counts()
 
-    return monetary_block
+            if (
+                pair_counts.get("congruent-congruent", 0) == 25 and
+                pair_counts.get("congruent-incongruent", 0) == 25 and
+                pair_counts.get("incongruent-congruent", 0) == 25 and
+                pair_counts.get("incongruent-incongruent", 0) == 25
+            ):
+                restriction_check = True
 
-#all_trials = generate_trial_block()
+        if restriction_check:
+            current_names = [stim["name"] for stim in stimulus_set]
+            already_exists = any(
+                current_names == [stim["name"] for stim in block]
+                for block in congruency_list
+            )
 
-#rules
-#ensure no monetary trials are consecutive
-"""for i in range(1, len(all_trials)):
-        if all_trials[i]["monetary"] == 1 and all_trials[i - 1]["monetary"] == 1:
-            for j in range(i + 1, len(all_trials)):
-                if all_trials[j]["monetary"] != 1 and (j == len(all_trials) - 1 or all_trials[j + 1]["monetary"] != 1):
-                    all_trials[i], all_trials[j] = all_trials[j], all_trials[i]
-                    break"""
+            if not already_exists:
+                congruency_list.append(stimulus_set.copy())
+                print(f"    Block {len(congruency_list)}/10 generated")
 
-#trials.json
-def save_trials_to_json(all_sets, file_path="trials.json"):
+            if len(congruency_list) == 10:
+                break
+
+        stimulus_set = []
+        factor()
+
+    print("Stage 1 passed!")
+    return congruency_list
+
+######### STAGE 2: Adding monetary conditions ########
+
+def add_monetary_conditions(congruency_list):
+    target_monetary = 400
+
+    print("Stage 2: Adding monetary conditions.")
+    for attempt in range(100000):
+        # Reset all conditions
+        for block in congruency_list:
+            for trial in block:
+                trial["condition"] = "not monetary"
+
+        # Eligible positions: exclude first trial of each block
+        eligible_positions = []
+        for block_idx in range(len(congruency_list)):
+            for trial_idx in range(1, len(congruency_list[block_idx])):
+                eligible_positions.append((block_idx, trial_idx))
+
+        random.shuffle(eligible_positions)
+        monetary_count = 0
+
+        for block_idx, trial_idx in eligible_positions:
+            if monetary_count >= target_monetary:
+                break
+
+            block = congruency_list[block_idx]
+            can_place = True
+
+            if block[trial_idx - 1]["condition"] == "monetary":
+                can_place = False
+            if can_place and trial_idx + 1 < len(block):
+                if block[trial_idx + 1]["condition"] == "monetary":
+                    can_place = False
+
+            if can_place:
+                block[trial_idx]["condition"] = "monetary"
+                monetary_count += 1
+
+        if monetary_count != target_monetary:
+            continue
+
+        # Validate: no first trials monetary, no consecutive monetary
+        first_trial_violations = sum(1 for b in congruency_list if b[0]["condition"] == "monetary")
+        if first_trial_violations > 0:
+            continue
+
+        consecutive_violations = 0
+        for block in congruency_list:
+            for trial_idx in range(1, len(block)):
+                if block[trial_idx - 1]["condition"] == "monetary" and block[trial_idx]["condition"] == "monetary":
+                    consecutive_violations += 1
+
+        if consecutive_violations == 0:
+            print(f"    Valid monetary distribution found (attempt {attempt + 1})")
+            print(f"    Monetary trials: {monetary_count} (40.0%)")
+            print("Stage 2 passed!")
+            return True
+
+    print("Stage 2 failed after 100000 attempts.")
+    return False
+
+######### STAGE 3: Adding color ########
+
+def add_colors(congruency_list):
+    monetary_colors = ["red"] * 200 + ["green"] * 200
+    non_monetary_colors_pool = ["magenta", "blue", "yellow"]
+
+    print("Stage 3: Adding colors.")
+    for attempt in range(100000):
+        random.shuffle(monetary_colors)
+
+        monetary_positions = []
+        non_monetary_positions = []
+        for block_idx, block in enumerate(congruency_list):
+            for trial_idx, trial in enumerate(block):
+                if trial["condition"] == "monetary":
+                    monetary_positions.append((block_idx, trial_idx))
+                else:
+                    non_monetary_positions.append((block_idx, trial_idx))
+
+        # Assign monetary colors
+        for i, (block_idx, trial_idx) in enumerate(monetary_positions):
+            congruency_list[block_idx][trial_idx]["color"] = monetary_colors[i]
+
+        # Build balanced non-monetary color list
+        n_non_monetary = len(non_monetary_positions)
+        base_count = n_non_monetary // 3
+        remainder = n_non_monetary % 3
+
+        remainder_colors = random.sample(non_monetary_colors_pool, remainder)
+        counts = {color: base_count for color in non_monetary_colors_pool}
+        for color in remainder_colors:
+            counts[color] += 1
+
+        non_monetary_colors = []
+        for color, count in counts.items():
+            non_monetary_colors.extend([color] * count)
+        random.shuffle(non_monetary_colors)
+
+        # Assign non-monetary colors
+        for i, (block_idx, trial_idx) in enumerate(non_monetary_positions):
+            congruency_list[block_idx][trial_idx]["color"] = non_monetary_colors[i]
+
+        # Validate monetary colors: strict 200/200
+        red_count = sum(
+            1 for block in congruency_list for trial in block
+            if trial["condition"] == "monetary" and trial["color"] == "red"
+        )
+        green_count = sum(
+            1 for block in congruency_list for trial in block
+            if trial["condition"] == "monetary" and trial["color"] == "green"
+        )
+
+        if red_count != 200 or green_count != 200:
+            continue
+
+        # Validate non-monetary colors: within ±1 of ideal
+        non_monetary_color_counts = {"magenta": 0, "blue": 0, "yellow": 0}
+        for block in congruency_list:
+            for trial in block:
+                if trial["condition"] == "not monetary":
+                    non_monetary_color_counts[trial["color"]] += 1
+
+        total_non_monetary = sum(non_monetary_color_counts.values())
+        ideal = total_non_monetary / 3
+        non_monetary_valid = all(
+            abs(non_monetary_color_counts[c] - ideal) <= 1
+            for c in ["magenta", "blue", "yellow"]
+        )
+
+        if not non_monetary_valid:
+            continue
+
+        print(f"    Valid color distribution found (attempt {attempt + 1})")
+        print(f"    Monetary: red={red_count}, green={green_count}")
+        print(f"    Non-monetary: magenta={non_monetary_color_counts['magenta']}, blue={non_monetary_color_counts['blue']}, yellow={non_monetary_color_counts['yellow']}")
+        print("Stage 3 passed!")
+        return True
+
+    print("Stage 3 failed after 100000 attempts.")
+    return False
+
+######### Signal handler ########
+
+def handle_exit(sig, frame):
+    print("\nStopped. All completed trial sets are saved in trials.json")
+    sys.exit(0)
+
+signal.signal(signal.SIGINT, handle_exit)
+signal.signal(signal.SIGTERM, handle_exit)
+
+######### Main loop ########
+
+completed_count = 0
+print("Starting continuous generation. Press Ctrl+C to stop.\n")
+
+while True:
+    completed_count += 1
+    print(f"═══ Trial set #{completed_count} ═══")
+
+    # Stage 1: generate fresh blocks
+    congruency_list = generate_blocks()
+
+    # Stage 2: add monetary conditions
+    if not add_monetary_conditions(congruency_list):
+        print("Skipping to next trial set.\n")
+        continue
+
+    # Stage 3: add colors
+    if not add_colors(congruency_list):
+        print("Skipping to next trial set.\n")
+        continue
+
+    # All stages passed - save
     try:
-        with open(file_path, "r") as f:
-            file_data = json.load(f)
-        if "trials" not in file_data:
-            file_data = {"trials": []}
+        with open("trials.json", "r") as file:
+            data = json.load(file)
     except (FileNotFoundError, json.JSONDecodeError):
-        file_data = {"trials": []}
-    file_data["trials"].extend(all_sets)
-    with open(file_path, "w") as f:
-        json.dump(file_data, f, indent=2)
+        data = {"trial_sets": []}
 
+    data["trial_sets"].append(congruency_list)
 
-all_sets = []
-for i in range(TOTAL_SETS):
-    block = generate_trial_block()
-    all_sets.append(block)
-    print(f"Set {i+1}")
-save_trials_to_json(all_sets)
+    with open("trials.tmp", "w") as file:
+        json.dump(data, file, indent=4)
+    os.replace("trials.tmp", "trials.json")
 
-print(f"{TOTAL_SETS} trial blocks saved to trials.json")
+    print(f"Saved to trials.json (total sets: {len(data['trial_sets'])})")
+    print(f"Trial set #{completed_count} completed!\n")
