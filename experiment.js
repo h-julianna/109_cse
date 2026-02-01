@@ -111,27 +111,27 @@ const probe_colors = {
     magenta: "#E040FB"
 };
 
-function format_prime_probe_trial(trial, block_index) {
+function format_prime_probe_trials(trial, block_index) {
     return {
         prime:`<span style="font-size:40px;">${trial.prime.replace(/\n/g, "<br>")}</span>`,
         probe:`<span style="font-size:40px; color:${probe_colors[trial.color]};">${trial.probe}</span>`,
         congruency: trial.congruency,
         correct_response: trial.correct_response,
         color: trial.color,
-        monetary: trial.monetary,
+        monetary: trial.condition === "monetary",
         name: trial.name,
         block: block_index + 1
     }
-};
+}
 
-let shuffled_blocks = jsPsych.randomization.shuffle(prime_probe_trials.trials);
-
-let selected_blocks = shuffled_blocks.slice(0, 10);
+const shuffled_blocks = jsPsych.randomization.shuffle(prime_probe_trials.trial_sets);
+const selected_blocks = shuffled_blocks[0]; // Changed from slice(0, 10) to [0][0]
 console.log(selected_blocks);
-let randomized_stimuli_per_participant = selected_blocks.map(
+const randomized_stimuli_per_participant = selected_blocks.map(
     (block, block_index) => 
-        block.map(trial => format_prime_probe_trial(trial, block_index)) 
+        block.map(trial => format_prime_probe_trials(trial, block_index)) 
 )
+
 
 //Creating timeline
 const timeline = [];
@@ -358,7 +358,7 @@ const practice_blocks_raw = [
 
 const formatted_practice_blocks = practice_blocks_raw.map(
     (block, block_index) =>
-        block.map(trial => format_prime_probe_trial(trial, block_index))
+        block.map(trial => format_prime_probe_trials(trial, block_index))
 )
 
 const practice_blocks = formatted_practice_blocks.map(block_stimuli => {
