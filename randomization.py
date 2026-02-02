@@ -124,7 +124,7 @@ def add_monetary_conditions(congruency_list):
         # Reset all conditions
         for block in congruency_list:
             for trial in block:
-                trial["condition"] = "not monetary"
+                trial["condition"] = "not_monetary"
 
         # Eligible positions: exclude first trial of each block
         eligible_positions = []
@@ -234,7 +234,7 @@ def add_colors(congruency_list):
         non_monetary_color_counts = {"magenta": 0, "blue": 0, "yellow": 0}
         for block in congruency_list:
             for trial in block:
-                if trial["condition"] == "not monetary":
+                if trial["condition"] == "not_monetary":
                     non_monetary_color_counts[trial["color"]] += 1
 
         total_non_monetary = sum(non_monetary_color_counts.values())
