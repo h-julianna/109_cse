@@ -9,26 +9,26 @@ import pandas as pd
 
 def get_vertical_con_list():
     return [
-        {"prime": "le\nle\nle", "probe": "le", "congruency": "congruent", "correct_response": "n", "name": "vertical_con_1"},
-        {"prime": "fel\nfel\nfel", "probe": "fel", "congruency": "congruent", "correct_response": "e", "name": "vertical_con_2"}
+        {"prime": "downprime", "probe": "downprobe", "congruency": "congruent", "correct_response": "n", "name": "vertical_con_1"},
+        {"prime": "upprime", "probe": "upprobe", "congruency": "congruent", "correct_response": "e", "name": "vertical_con_2"}
     ]
 
 def get_vertical_inc_list():
     return [
-        {"prime": "fel\nfel\nfel", "probe": "le", "congruency": "incongruent", "correct_response": "n", "name": "vertical_incon_1"},
-        {"prime": "le\nle\nle", "probe": "fel", "congruency": "incongruent", "correct_response": "e", "name": "vertical_incon_2"}
+        {"prime": "upprime", "probe": "downprobe", "congruency": "incongruent", "correct_response": "n", "name": "vertical_incon_1"},
+        {"prime": "downprime", "probe": "upprobe", "congruency": "incongruent", "correct_response": "e", "name": "vertical_incon_2"}
     ]
 
 def get_horizontal_con_list():
     return [
-        {"prime": "bal\nbal\nbal", "probe": "bal", "congruency": "congruent", "correct_response": "a", "name": "horizontal_con_1"},
-        {"prime": "jobb\njobb\njobb", "probe": "jobb", "congruency": "congruent", "correct_response": "l", "name": "horizontal_con_2"}
+        {"prime": "leftprime", "probe": "leftprobe", "congruency": "congruent", "correct_response": "a", "name": "horizontal_con_1"},
+        {"prime": "rightprime", "probe": "rightprobe", "congruency": "congruent", "correct_response": "l", "name": "horizontal_con_2"}
     ]
 
 def get_horizontal_incon_list():
     return [
-        {"prime": "bal\nbal\nbal", "probe": "jobb", "congruency": "incongruent", "correct_response": "l", "name": "horizontal_incon_1"},
-        {"prime": "jobb\njobb\njobb", "probe": "bal", "congruency": "incongruent", "correct_response": "a", "name": "horizontal_incon_2"}
+        {"prime": "leftprime", "probe": "rightprobe", "congruency": "incongruent", "correct_response": "l", "name": "horizontal_incon_1"},
+        {"prime": "rightprime", "probe": "leftprobe", "congruency": "incongruent", "correct_response": "a", "name": "horizontal_incon_2"}
     ]
 
 ######### STAGE 1: Generating congruency-balanced blocks ########

@@ -4,6 +4,16 @@
     throw new Error("Safari not supported");
 }
 
+const experiment_text = {"hun":{
+	"downprobe":"le",
+	"upprobe": "fel",
+	"leftprobe": "bal",
+	"rightprobe":"jobb",
+	"downprime":"le<br>le<br>le",
+	"upprime":"fel<br>fel<br>fel",
+	"leftprime":"bal<br>bal<br>bal",
+	"rightprime":"jobb<br>jobb<br>jobb"}}
+
 //URL Parameters
 let queryString = window.location.search;
 let urlParams = new URLSearchParams(queryString);
@@ -40,7 +50,12 @@ const fixation = {
 //Prime
 const prime = {
     type: jsPsychHtmlKeyboardResponse,
-    stimulus: jsPsych.timelineVariable('prime'),
+    stimulus:function(){
+    	primestim = jsPsych.evaluateTimelineVariable('prime')
+	console.log(primestim)
+	myprime = experiment_text[lang][primestim]
+	return `<span style="font-size:40px;">${myprime}</span>`
+    },
     choices: 'NO_KEYS',
     trial_duration: durations.prime_duration,
     data: {
@@ -62,7 +77,13 @@ const blank = {
 //Probe
 const probe = {
     type: jsPsychHtmlKeyboardResponse,
-    stimulus: jsPsych.timelineVariable('probe'),
+    stimulus: function(){
+	    probestim = jsPsych.evaluateTimelineVariable('probe')
+	    probecolor = jsPsych.evaluateTimelineVariable('color')
+	    myprobe = experiment_text[lang][probestim]
+	    return `<span style="font-size:40px; color:${probe_colors[probecolor]};">${myprobe}</span>`
+
+    },
     choices: ['a', 'e', 'n', 'l'],
     stimulus_duration: durations.probe_stim_duration,
     trial_duration: durations.probe_trial_duration,
@@ -107,7 +128,7 @@ jsPsych.data.addProperties({subj_code: subj_code});
 //Preparing stimulus variables
 const probe_colors = {
     red: "#FF3B3B",
-    green: "#00E676",
+    green: "#28a745",
     blue: "#2979FF",
     yellow: "#FFD700",
     magenta: "#E040FB"
@@ -115,8 +136,8 @@ const probe_colors = {
 
 function format_prime_probe_trials(trial, block_index) {
     return {
-        prime:`<span style="font-size:40px;">${trial.prime.replace(/\n/g, "<br>")}</span>`,
-        probe:`<span style="font-size:40px; color:${probe_colors[trial.color]};">${trial.probe}</span>`,
+        prime:trial.prime,
+        probe:trial.probe,
         congruency: trial.congruency,
         correct_response: trial.correct_response,
         color: trial.color,
@@ -384,7 +405,7 @@ const practice_blocks = formatted_practice_blocks.map(block_stimuli => {
     };
 });
 
-timeline.push(practice_instructions, practice_blocks[0], practice_intermission, practice_blocks[1], practice_end);
+//timeline.push(practice_instructions, practice_blocks[0], practice_intermission, practice_blocks[1], practice_end);
 
 //Main experiment blocks
 const block_intro = (block_index) => ({
