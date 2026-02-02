@@ -7,6 +7,8 @@
 //URL Parameters
 let queryString = window.location.search;
 let urlParams = new URLSearchParams(queryString);
+let lang = urlParams.get("lang");
+console.log(lang)
 
 // Debug mode
 const debug = false;
