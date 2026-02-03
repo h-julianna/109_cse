@@ -18,10 +18,8 @@ const experiment_text = {"hun":{
 let queryString = window.location.search;
 let urlParams = new URLSearchParams(queryString);
 let lang = urlParams.get("lang");
-console.log(lang)
-
-// Debug mode
-const debug = false;
+let debug = urlParams.get("debug") === "1" ? 1 : 0; // Debug mode
+console.log(lang);
 console.log(debug);
 
 //Initialize jsPsych
