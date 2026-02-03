@@ -33,6 +33,8 @@ const durations = {
     probe_stim_duration: debug ? 1 : 133,
     probe_trial_duration: debug ? 1 : 1000
 }
+let money = 2000;
+let in_practice = true; //Flagging practice block to later exclude it from money calculation
 
 //Fixation
 const fixation = {
@@ -79,9 +81,7 @@ const probe = {
 	    probestim = jsPsych.evaluateTimelineVariable('probe')
 	    probecolor = jsPsych.evaluateTimelineVariable('color')
 	    myprobe = experiment_text[lang][probestim]
-	    return `<span style="font-size:40px; color:${probe_colors[probecolor]};">${myprobe}</span>`
-
-    },
+	    return `<span style="font-size:40px; color:${probe_colors[probecolor]};">${myprobe}</span>`},
     choices: ['a', 'e', 'n', 'l'],
     stimulus_duration: durations.probe_stim_duration,
     trial_duration: durations.probe_trial_duration,
@@ -98,6 +98,14 @@ const probe = {
         console.log('Response data:', data);
         console.log('Key pressed:', data.response);
         data.correct = data.response === data.correct_response;
+        if(!in_practice) {
+        if (data.color === "red") {
+        money -= 17;
+    }
+        if (data.color === "green") {
+        money += 17;
+            }
+        }
     }
 }
 
@@ -131,6 +139,7 @@ const probe_colors = {
     yellow: "#FFD700",
     magenta: "#E040FB"
 };
+
 
 function format_prime_probe_trials(trial, block_index) {
     return {
@@ -167,7 +176,7 @@ const welcome_trial = {
                 <h3>Részvétel</h3>
                 <p>A kutatásban való részvétel teljesen önkéntes. A vizsgálatot bármikor indoklás nélkül megszakíthatod. 
                 Ha bármilyen kérdésed, észrevételed vagy problémád van a kutatással kapcsolatban, írj Bognár Miklósnak a <a href="mailto:bognar.miklos@ppk.elte.hu">bognar.miklos@ppk.elte.hu</a> címre.</p>`,
-    choices: ['Tovább ']
+    choices: ["Tovább"]
 }
 
 timeline.push(welcome_trial);
@@ -184,7 +193,8 @@ timeline.push(fullscreen_trial);
 //Informed consent
 const informed_consent_trial = {
     type:jsPsychHtmlButtonResponse,
-    stimulus: `<h2>Beleegyező nyilatkozat</h2>
+    stimulus: 
+        `<h2>Beleegyező nyilatkozat</h2>
                 <p>Felelősségem teljes tudatában kijelentem, hogy a mai napon az Eötvös Loránd Tudományegyetem, Bognár Miklós kutatásvezető által végzett vizsgálatban</p>
                  <ul>
                     <li>önként veszek részt.</li>
@@ -215,7 +225,8 @@ timeline.push(informed_consent_trial);
 //Data handling and informed consent
 const data_handling_trial = {   
     type: jsPsychHtmlButtonResponse,
-    stimulus: `<h2 style="text-align: center;">Adatkezelési tájékoztató</h2>
+    stimulus:
+        `<h2 style="text-align: center;">Adatkezelési tájékoztató</h2>
             <p style="text-align: justify; max-width: 800px; margin: auto;">Szigorúan bizalmasan kezelünk minden olyan személyes információt, amit a kutatás keretén belül gyűjtünk össze. 
                 A kutatás során nyert adatokat kóddal ellátva biztonságos számítógépeken tároljuk. A kutatás során nyert adatokat összegezzük. 
                 Az ELTE PPK Affektív Pszichológia Tanszék Metatudomány Kutatócsoportja, mint adatkezelő, fenti személyes adataidat bizalmasan kezeli, más adatkezelőnek, adatfeldolgozónak nem adja át.
@@ -322,9 +333,10 @@ const practice_intermission = {
     </div>`;
   },
   choices: 'ALL_KEYS',
-  trial_duration: 120000, 
+  trial_duration: debug ? 1: 120000, 
   on_load: function() {
-    let time_left = 120;
+    if (debug) return;
+    let time_left = debug ? 1: 120;
     const timer_display = document.getElementById('timer');
     const countdown = setInterval(() => {
       time_left--;
@@ -338,20 +350,27 @@ const practice_intermission = {
 
 const practice_end = {
     type: jsPsychHtmlKeyboardResponse,
-    stimulus:`<div style="padding-bottom: 350px; max-width: 800px; margin: 40px auto; font-size: 24px;">
+    stimulus:
+    debug ? "<div></div>" :
+    `<div style="padding-bottom: 350px; max-width: 800px; margin: 40px auto; font-size: 24px;">
     <p style="text-align: justify; margin: 0;">A gyakorló rész véget ért. A kísérleti blokkok következnek.<br> 
         A kísérleti blokkokban nem fogsz visszajelzést kapni, ha túl lassú, vagy hibás választ adtál.<br>
         Ne feledd, <span style="color: #FF3B3B; font-weight: bold;">piros</span> próbák esetén 17 garast vonunk le tőled.<br>
         <span style="color: #00E676; font-weight: bold;">Zöld</span> próbák esetén 17 garast kapsz.<br>
         Ha készen állsz, nyomd meg a space billentyűt a kezdéshez.<span style="display:inline-block; width:100%;"></span></p></div>
         <img src="NEWinstruction_pic.png" alt="Hand placement instructions" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 55%;max-width: 600px;">`,
-  choices:  [" "],
+  choices: debug ? ["NO_KEYS"] : [" "],
+  trial_duration: debug ? 1 : null,
+  on_finish: function() {
+        in_practice = false;
+    }
 };
 
 const prac_feedback = {
     type:jsPsychHtmlKeyboardResponse,
-    choices: 'NO_KEYS',
+    choices: "NO_KEYS",
     stimulus: () => {
+        if (debug) return "<div></div>";
         const last = jsPsych.data.getLastTrialData().values()[0];
         if(last.rt === null || last.rt > practice.cutoff) {
             return "<div style='font-size:35px;'>Túl lassú!</div>";
@@ -362,6 +381,7 @@ const prac_feedback = {
         return "<div></div>";
     },
     trial_duration: () => {
+        if (debug) return 1;
         const last = jsPsych.data.getLastTrialData().values()[0];
         if (last.rt === null || last.rt > practice.cutoff || !last.correct) {
             return practice.feedback_duration;
@@ -403,7 +423,7 @@ const practice_blocks = formatted_practice_blocks.map(block_stimuli => {
     };
 });
 
-//timeline.push(practice_instructions, practice_blocks[0], practice_intermission, practice_blocks[1], practice_end);
+timeline.push(practice_instructions, practice_blocks[0], practice_intermission, practice_blocks[1], practice_end);
 
 //Main experiment blocks
 const block_intro = (block_index) => ({
@@ -411,7 +431,7 @@ const block_intro = (block_index) => ({
     stimulus: `<div style="text-align:center; font-size:24px;">
                 <h2>Blokk ${block_index + 1} kezdődik</h2></div>`,
     choices: 'NO_KEYS',
-    trial_duration: 2000 
+    trial_duration: debug ? 500 : 2000
     }
 );
 
@@ -424,7 +444,10 @@ const experimental_blocks = randomized_stimuli_per_participant.map(
     (block_stimuli, i) => ({
         timeline: [block_intro(i), {...trial_sequence, timeline_variables: block_stimuli}],
         on_timeline_start: () => {
-            console.log(`Starting block ${i + 1} with stimuli:`, block_stimuli);
+            console.log(`Starting block ${i + 1} with stimuli:`, block_stimuli);    
+        },
+        on_timeline_finish: () => {
+            console.log(`End of block ${i + 1}. Money currently:`, money);
         }
     })
 );
@@ -433,18 +456,21 @@ const experimental_blocks = randomized_stimuli_per_participant.map(
 const block_intermission = {
   type: jsPsychHtmlKeyboardResponse,
   stimulus: function() {
+    const money_color = money < 2000 ? "#FF3B3B" : (money > 2000 ? "#28a745" : "#ffffff");
     return `
       <div style="text-align: center; max-width: 800px; margin: auto; font-size: 24px">
         <p><strong>Blokk vége.</strong></p>
+        <p>Összesen <strong style="color: ${money_color};">${money} garasod</strong> van. Ha készen állsz, nyomj le egy gombot a folytatáshoz.</p>
         <p>Pihenj egy kicsit, majd nyomj meg egy billentyűt a következő blokk kezdéséhez.</p>
         <p><strong>A következő blokk automatikusan elindul 2 perc múlva.</strong></p>
         <p id="timer" style="font-size: 28px; color: darkred;">Kezdés: 2:00</p>
       </div>`;
   },
-  choices: "ALL_KEYS",
-  trial_duration: 120000,
+  choices: debug ? "NO_KEYS" : "ALL_KEYS",
+  trial_duration: debug ? 1 : 120000,
   on_load: function() {
-    let timeLeft = 120;
+    if (debug) return;
+    let timeLeft = debug ? 1 : 120;
     const timerDisplay = document.getElementById('timer');
     const countdown = setInterval(() => {
       timeLeft--;
@@ -471,7 +497,8 @@ const experiment_end = {
   type: jsPsychHtmlButtonResponse,
   stimulus: `
       <h2>Kísérlet vége</h2>
-      <h3>Köszönjük, hogy részt vettél a vizsgálatban!</h3>
+      <h3>Összesen <strong>${money} garasod</strong> van.</h3>
+      <h>Köszönjük, hogy részt vettél a vizsgálatban!</h3>
       
       <p>Hogy megkaphasd a pontjaidat, nyomd meg a "Vége" gombot</p>`,
   choices: ["Vége"],
