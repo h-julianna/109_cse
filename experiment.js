@@ -3,6 +3,7 @@
     alert("A Safari ebben a kutatásban nem támogatott böngésző. Kérlek használj Chrome-ot vagy Firefoxot!");
     throw new Error("Safari not supported");
 }
+const running_jatos = (typeof jatos !== 'undefined'); //detecting JATOS environment
 
 const experiment_text = {"hun":{
 	"downprobe":"le",
@@ -14,27 +15,40 @@ const experiment_text = {"hun":{
 	"leftprime":"bal<br>bal<br>bal",
 	"rightprime":"jobb<br>jobb<br>jobb"}}
 
+//Creating Jatos and standalone browser compatibility
 //URL Parameters
-let queryString = window.location.search;
-let urlParams = new URLSearchParams(queryString);
-let lang = urlParams.get("lang");
-let debug = urlParams.get("debug") === "1" ? 1 : 0; // Debug mode
-console.log(lang);
-console.log(debug);
+let debug = 0; //For jatos debugging
+let lang = "hun"; //Default language
+
+if (!running_jatos) {
+    let queryString = window.location.search;
+    let urlParams = new URLSearchParams(queryString);
+    lang = urlParams.get("lang") || "hun";
+    debug = urlParams.get("debug") === "1" ? 1 : 0;
+    console.log('In standalone mode, debug:', debug, 'lang:', lang);
+}
 
 //Initialize jsPsych
-let jsPsych = initJsPsych();
-
+    const jsPsych = initJsPsych({
+        on_finish: () => {
+            if (running_jatos) {
+                // Jatos mode: send data and redirect
+                jatos.endStudyAndRedirect(
+                    "link to redirect for course points", 
+                    jsPsych.data.get().csv()
+                );
+            }
+        }
+    });
 
 //Stimulus time parameters
-const durations = {
+let durations = {
     prime_duration: debug ? 1 : 133,
     blank_duration: debug ? 1 : 33,
     probe_stim_duration: debug ? 1 : 133,
-    probe_trial_duration: debug ? 1 : 1000
-}
+    probe_trial_duration: debug ? 1 : 1000};
 let money = 2000;
-let in_practice = true; //Flagging practice block to later exclude it from money calculation
+let in_practice = true; //Flagging practice block to later exclude it from monetary calculation
 
 //Fixation
 const fixation = {
@@ -82,7 +96,7 @@ const probe = {
 	    probecolor = jsPsych.evaluateTimelineVariable('color')
 	    myprobe = experiment_text[lang][probestim]
 	    return `<span style="font-size:40px; color:${probe_colors[probecolor]};">${myprobe}</span>`},
-    choices: ['a', 'e', 'n', 'l'],
+    choices: ['a', 'A', 'e','E', 'n','N','l','L'],
     stimulus_duration: durations.probe_stim_duration,
     trial_duration: durations.probe_trial_duration,
     response_ends_trial: false,
@@ -363,6 +377,7 @@ const practice_end = {
   trial_duration: debug ? 1 : null,
   on_finish: function() {
         in_practice = false;
+        jsPsych.data.addDataToLastTrial({task: 'end_practice'});
     }
 };
 
@@ -503,7 +518,7 @@ const experiment_end = {
       <p>Hogy megkaphasd a pontjaidat, nyomd meg a "Vége" gombot</p>`,
   choices: ["Tovább"],
     on_finish: function() { //Local download of data
-        if (debug) return;
+        if (!running_jatos || !debug) return;
         const csv = jsPsych.data.get().csv();
         const blob = new Blob([csv], { type: 'text/csv' });
         const url = URL.createObjectURL(blob);
@@ -513,9 +528,47 @@ const experiment_end = {
         link.click();
     }
 }
-    //const debrief
-
+    /*const debrief = {
+    type: jsPsychHtmlButtonResponse,
+    stimulus: `
+    <h1></h1>
+    <h2>Összesen <strong>${money} garasod</strong> van.</h2>`,
+    choices: ["Tovább"],
+    }
+*/
 //Adding full experiment and end trial to timeline
 timeline.push(...full_experiment, experiment_end);
 
+function startExperiment() {
 jsPsych.run(timeline);
+}
+if (running_jatos) {
+    jatos.onLoad(() => {
+        console.log(jatos.version);
+        
+        // Read Jatos params and RESTART (reload page) with updated debug
+        const params = jatos.urlQueryParameters || {};
+        if (params.debug == 1) {
+            console.log(debug);
+            durations = {
+            prime_duration: debug ? 1 : 133,
+            blank_duration: debug ? 1 : 33,
+            probe_stim_duration: debug ? 1 : 133,
+            probe_trial_duration: debug ? 1 : 1000
+        };
+        }
+        
+        startExperiment();
+    });
+} else {
+    let queryString = window.location.search;
+    let urlParams = new URLSearchParams(queryString);
+    debug = urlParams.get("debug") === "1" ? 1 : 0;
+    durations = {
+            prime_duration: debug ? 1 : 133,
+            blank_duration: debug ? 1 : 33,
+            probe_stim_duration: debug ? 1 : 133,
+            probe_trial_duration: debug ? 1 : 1000,
+        };
+    startExperiment();
+}
