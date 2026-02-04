@@ -148,7 +148,7 @@ function format_prime_probe_trials(trial, block_index) {
         congruency: trial.congruency,
         correct_response: trial.correct_response,
         color: trial.color,
-        monetary: trial.condition === "monetary",
+        monetary:  trial.condition === "monetary" ? 1 : 0,
         name: trial.name,
         block: block_index + 1
     }
@@ -169,7 +169,7 @@ const timeline = [];
 //Welcome
 const welcome_trial = {
     type: jsPsychHtmlButtonResponse,
-    stimulus: `<img src="University_logo.png" alt="University Logo" style="width: 300px; display: block; margin: auto;">
+    stimulus: `<img src="images/University_logo.png" alt="University Logo" style="width: 300px; display: block; margin: auto;">
             <h2>Üdvözlünk a Metatudomány kutatócsoport vizsgálatában!</h2>
                 <p>Egy tudományos kutatásban veszel részt, amelynek vezetője Bognár Miklós, az ELTE Affektív Pszichológia Tanszékének kutatója. 
                 A kutatás célja megvizsgálni, hogy különböző ingertípusok miként hatnak a reakcióidőre.</p>
@@ -306,7 +306,7 @@ const instruction_trial = {
                 A jobb gyűrűsujjadat az <span class='key'>L</span>-re, ez fogja jelölni a "JOBB" irányt. 
                 A jobb mutató ujjadat helyezd az <span class='key'>N</span>-re, ez lesz a "LE" irány. 
                 Míg a bal középső ujjadat pedig tedd az <span class='key'>E</span>-re, ami a "FEL" irányt fogja jelölni! </p>
-                <img src="NEWinstruction_pic.png" alt="Hand placement instructions" style="width: 40%; height: 40%;">
+                <img src="images/instruction_pic.png" alt="Hand placement instructions" style="width: 40%; height: 40%;">
                 <p style="text-align: center;"><em>Amennyiben készen állsz a kísérlet megkezdésére, nyomd meg a space billentyűt!</em></p>`,
             choices: [" "],
 }
@@ -358,8 +358,8 @@ const practice_end = {
         Ne feledd, <span style="color: #FF3B3B; font-weight: bold;">piros</span> próbák esetén 17 garast vonunk le tőled.<br>
         <span style="color: #00E676; font-weight: bold;">Zöld</span> próbák esetén 17 garast kapsz.<br>
         Ha készen állsz, nyomd meg a space billentyűt a kezdéshez.<span style="display:inline-block; width:100%;"></span></p></div>
-        <img src="NEWinstruction_pic.png" alt="Hand placement instructions" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 55%;max-width: 600px;">`,
-  choices: debug ? ["NO_KEYS"] : [" "],
+        <img src="instruction_pic.png" alt="Hand placement instructions" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 55%;max-width: 600px;">`,
+  choices: debug ? "NO_KEYS" : " ",
   trial_duration: debug ? 1 : null,
   on_finish: function() {
         in_practice = false;
@@ -501,8 +501,19 @@ const experiment_end = {
       <h>Köszönjük, hogy részt vettél a vizsgálatban!</h3>
       
       <p>Hogy megkaphasd a pontjaidat, nyomd meg a "Vége" gombot</p>`,
-  choices: ["Vége"],
-};
+  choices: ["Tovább"],
+    on_finish: function() { //Local download of data
+        if (debug) return;
+        const csv = jsPsych.data.get().csv();
+        const blob = new Blob([csv], { type: 'text/csv' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `data_${Date.now()}.csv`;
+        link.click();
+    }
+}
+    //const debrief
 
 //Adding full experiment and end trial to timeline
 timeline.push(...full_experiment, experiment_end);
