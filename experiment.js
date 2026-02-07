@@ -4,16 +4,6 @@
     throw new Error("Safari not supported");
 }
 
-const experiment_text = {"hun":{
-	"downprobe":"le",
-	"upprobe": "fel",
-	"leftprobe": "bal",
-	"rightprobe":"jobb",
-	"downprime":"le<br>le<br>le",
-	"upprime":"fel<br>fel<br>fel",
-	"leftprime":"bal<br>bal<br>bal",
-	"rightprime":"jobb<br>jobb<br>jobb"}}
-
 //URL Parameters
 let queryString = window.location.search;
 let urlParams = new URLSearchParams(queryString);
@@ -79,6 +69,7 @@ const probe = {
     type: jsPsychHtmlKeyboardResponse,
     stimulus: function(){
 	    probestim = jsPsych.evaluateTimelineVariable('probe')
+        console.log(probestim)
 	    probecolor = jsPsych.evaluateTimelineVariable('color')
 	    myprobe = experiment_text[lang][probestim]
 	    return `<span style="font-size:40px; color:${probe_colors[probecolor]};">${myprobe}</span>`},
@@ -169,14 +160,8 @@ const timeline = [];
 //Welcome
 const welcome_trial = {
     type: jsPsychHtmlButtonResponse,
-    stimulus: `<img src="University_logo.png" alt="University Logo" style="width: 300px; display: block; margin: auto;">
-            <h2>Üdvözlünk a Metatudomány kutatócsoport vizsgálatában!</h2>
-                <p>Egy tudományos kutatásban veszel részt, amelynek vezetője Bognár Miklós, az ELTE Affektív Pszichológia Tanszékének kutatója. 
-                A kutatás célja megvizsgálni, hogy különböző ingertípusok miként hatnak a reakcióidőre.</p>
-                <h3>Részvétel</h3>
-                <p>A kutatásban való részvétel teljesen önkéntes. A vizsgálatot bármikor indoklás nélkül megszakíthatod. 
-                Ha bármilyen kérdésed, észrevételed vagy problémád van a kutatással kapcsolatban, írj Bognár Miklósnak a <a href="mailto:bognar.miklos@ppk.elte.hu">bognar.miklos@ppk.elte.hu</a> címre.</p>`,
-    choices: ["Tovább"]
+    stimulus: experiment_text[lang]["welcome"],
+    choices: [experiment_text[lang]["button_press"]]
 }
 
 timeline.push(welcome_trial);
@@ -184,8 +169,8 @@ timeline.push(welcome_trial);
 const fullscreen_trial = {
     type: jsPsychFullscreen,
     fullscreen_mode: true,
-    message: "<p>A kísérlet teljes képernyős módra vált.</p>",
-        button_label: 'Tovább'
+    message: experiment_text[lang]["fullscreen"],
+        button_label: experiment_text[lang]["button_press"]
 }
 
 timeline.push(fullscreen_trial);
@@ -193,25 +178,8 @@ timeline.push(fullscreen_trial);
 //Informed consent
 const informed_consent_trial = {
     type:jsPsychHtmlButtonResponse,
-    stimulus: 
-        `<h2>Beleegyező nyilatkozat</h2>
-                <p>Felelősségem teljes tudatában kijelentem, hogy a mai napon az Eötvös Loránd Tudományegyetem, Bognár Miklós kutatásvezető által végzett vizsgálatban</p>
-                 <ul>
-                    <li>önként veszek részt.</li>
-                    <li>a vizsgálat jellegéről, annak megkezdése előtt kielégítő tájékoztatást kaptam.</li>
-                    <li>nem szenvedek semmilyen pszichiátriai betegségben.</li>
-                    <li>a vizsgálat idején alkohol vagy drogok hatása alatt nem állok.</li>
-                 </ul>
-
-                <p>Tudomásul veszem, hogy az azonosításomra alkalmas személyi adataimat bizalmasan kezelik.
-                    Hozzájárulok ahhoz, hogy a vizsgálat során a rólam felvett, személyem azonosítására nem alkalmas adatok más kutatók számára is hozzáférhetők legyenek.
-                    Fenntartom a jogot arra, hogy a vizsgálat során annak folytatásától bármikor elállhassak. 
-                    Ilyen esetben a rólam addig felvett adatokat törölni kell.</p>
-                <p>Tudomásul veszem, hogy csak a teljesen befejezett kitöltésért kapok pontot a <em>Pszichológiai kísérletben és tudományos aktivitásban való részvétel</em> nevű kurzuson.</p>
-
-                <p><strong>A kutatásban való részvételem körülményeiről részletes tájékoztatást kaptam, a feltételekkel egyetértek. 
-                    Amennyiben egyetértesz a fenti feltételekkel, kattints az "Igen" gombra.</strong></p>`,
-    choices: ['Igen', 'Nem'],
+    stimulus: experiment_text[lang]["informed_consent"],
+    choices: experiment_text[lang]["yes/no"],
     response_ends_trial: true,
         on_finish: function(data) {
             if (data.response == 1) {
@@ -225,25 +193,8 @@ timeline.push(informed_consent_trial);
 //Data handling and informed consent
 const data_handling_trial = {   
     type: jsPsychHtmlButtonResponse,
-    stimulus:
-        `<h2 style="text-align: center;">Adatkezelési tájékoztató</h2>
-            <p style="text-align: justify; max-width: 800px; margin: auto;">Szigorúan bizalmasan kezelünk minden olyan személyes információt, amit a kutatás keretén belül gyűjtünk össze. 
-                A kutatás során nyert adatokat kóddal ellátva biztonságos számítógépeken tároljuk. A kutatás során nyert adatokat összegezzük. 
-                Az ELTE PPK Affektív Pszichológia Tanszék Metatudomány Kutatócsoportja, mint adatkezelő, fenti személyes adataidat bizalmasan kezeli, más adatkezelőnek, adatfeldolgozónak nem adja át.
-                E tényállás részleteit a <a href="http://metasciencelab.elte.hu/hozzajarulas-adatkezeleshez/" target=_blank">"Hozzájárulás adatkezeléshez"</a> c. dokumentum tartalmazza.</p>
-
-            <p>Az adatkezelésről szóló szabályzásról részletesebben pedig itt tájékozódhatsz:
-                <a href="https://ppk.elte.hu/file/Hozzajarulas_adatkezeleshez_melleklet_2018.pdf" target="_blank">Hozzájárulás adatkezeléshez melléklet</a></p>
-            <p>A kutatás során nyert személyes adataidat arra használjuk fel, hogy regisztrálhassuk a részvételért járó kurzuspontokat. 
-            Az azonosítására alkalmas adatokat (NEPTUN kód) ezután törölni fogjuk. A kezelt adatok a következők:</p>
-                <ul>
-                    <li>Életkor</li>
-                    <li>NEPTUN-kód</li>
-                    <li>Nem</li>
-                </ul>
-            <p>Válaszaid nem lesznek semmilyen módon hozzád köthetők. Az anonimizált adataidat más kutatókkal megosztjuk.</p>
-            <p><strong>Kérlek, amennyiben egyetértesz a fenti feltételekkel, és hozzájárulsz a kutatásban való részvételhez, kattints az "Igen" gombra.</strong></p>`,
-    choices: ['Igen', 'Nem'],
+    stimulus: experiment_text[lang]["data_handling"],
+    choices: experiment_text[lang]["yes/no"],
     response_ends_trial: true,
         on_finish: function(data) {
             if (data.response == 1) {
@@ -259,31 +210,31 @@ const age_neptun = {
   type: jsPsychSurveyText,
   questions: [
     {
-        prompt: "Hány éves vagy?",
+        prompt: experiment_text[lang]["age"],
         name: "age",
         input_type: "number",
         required: true
     },
     {
-        prompt: "Mi a NEPTUN kódod?",
+        prompt: experiment_text[lang]["neptun"],
         name: "neptun",
         required: true
     }
   ],
-  button_label: "Tovább",
+  button_label: experiment_text[lang]["button_press"],
 };
  
 const gender = {
     type: jsPsychSurveyMultiChoice,
     questions: [
         {
-            prompt: "Melyik a nemmel azonosulsz?", 
+            prompt: experiment_text[lang]["gender"],
             name: "gender", 
-            options: ["Férfi", "Nő", "Nem-bináris", "Nem szeretném megosztani"] ,
+            options: experiment_text[lang]["gender_options"],
             required: true
         }
     ],
-    button_label: "Tovább"
+    button_label: experiment_text[lang]["button_press"],
 }
 
 const demographic_timeline = [age_neptun, gender];
@@ -293,21 +244,7 @@ timeline.push(demographic_timeline);
 //Instructions
 const instruction_trial = {
     type: jsPsychHtmlKeyboardResponse,
-    stimulus: `<h2>Instrukciók</h2>
-                <p>Ebben a kísérletben arra vagyunk kíváncsiak, hogy miként befolyásolja a büntetésés és a jutalmazás a konfliktusfeldolgozást. 
-                A kísérlet során iránymegjelöléseket fogsz olvasni (FEL, LE, JOBB, BAL). Először egy prime inger fog megjelenni a képernyőn, amin egy irány (pl.: „FEL”) lesz olvasható egymás alatt háromszor. 
-                Ezt követően megjelenik a célinger, ami vagy azonos („FEL”) vagy ellentétes („LE”) lesz az előtte bemutatott iránnyal.
-                A feladatod az lesz, hogy minél gyorsabban és pontosabban eltaláld a célinger irányát a hozzárendelt billentyű megnyomásával.</p> 
-                <p>A kísérletet 2000 garassal kezded. Amikor a célinger <span style="color: #FF3B3B; font-weight: bold;">piros</span> színű, akkor 17 garast vonunk le tőled.
-                Ha viszont <span style="color: #00E676; font-weight: bold;">zöld</span> színű célingert látsz, 17 garas a jutalmad. 
-                A neutrális próbákat három szín fogja jelölni: <span style="color: #2979FF; font-weight: bold;">kék</span>, <span style="color: #FFD700; font-weight: bold;">sárga</span> és <span style="color: #E040FB; font-weight: bold;">rózsaszín</span>. Ezeknél a próbáknál sem jutalom, sem büntetés nem jár.</p> 
-                <p>Kérlek helyezd a billentyűzetre a kezedet a képen látható módon:</p>
-                <p>A bal gyűrűsujjadat tedd az <span class='key'>A</span>-ra. Ez lesz a "BAL" irány. 
-                A jobb gyűrűsujjadat az <span class='key'>L</span>-re, ez fogja jelölni a "JOBB" irányt. 
-                A jobb mutató ujjadat helyezd az <span class='key'>N</span>-re, ez lesz a "LE" irány. 
-                Míg a bal középső ujjadat pedig tedd az <span class='key'>E</span>-re, ami a "FEL" irányt fogja jelölni! </p>
-                <img src="NEWinstruction_pic.png" alt="Hand placement instructions" style="width: 40%; height: 40%;">
-                <p style="text-align: center;"><em>Amennyiben készen állsz a kísérlet megkezdésére, nyomd meg a space billentyűt!</em></p>`,
+    stimulus: experiment_text[lang]["instruction"],
             choices: [" "],
 }
 
@@ -316,21 +253,13 @@ timeline.push(instruction_trial);
 //Practice blocks
 const practice_instructions = {
         type: jsPsychHtmlKeyboardResponse,
-        stimulus: `<h2>Gyakorló blokk</h2>
-            <p>A kísérlet megkezdése előtt egy rövid gyakorló blokk következik. Törekedj a minél gyorsabb és pontosabb válaszadásra! 
-            A próbák 80%-át jól kell teljesítened, különben a gyakorlás újra indul<br>
-            Ha készen állsz, nyomj meg egy tetszőleges billentyűt a kezdéshez.</p>`
+        stimulus: experiment_text[lang]["practice_instruction"]
 }
 
 const practice_intermission = {
   type: jsPsychHtmlKeyboardResponse,
   stimulus: function() {
-    return `<div style="text-align: center; max-width: 800px; margin: auto; font-size: 24px">
-      <p>Még egy rövid gyakorló blokk következik.<br>
-      Ha készen állsz, nyomj meg egy tetszőleges billentyűt a kezdéshez.</p>
-      <p><strong>A blokk automatikusan elindul 2 perc múlva.</strong></p>
-      <p id="timer" style="font-size: 28px; color: darkred;">Kezdés: 2:00</p>
-    </div>`;
+    return experiment_text[lang]["practice_intermission"];
   },
   choices: 'ALL_KEYS',
   trial_duration: debug ? 1: 120000, 
@@ -342,7 +271,7 @@ const practice_intermission = {
       time_left--;
       const minutes = Math.floor(time_left / 60);
       const seconds = time_left % 60;
-      timer_display.textContent = `Kezdés: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+      timer_display.textContent = `Start: ${minutes}:${seconds.toString().padStart(2, '0')}`;
       if (time_left <= 0) clearInterval(countdown);
     }, 1000);
   }
@@ -350,15 +279,12 @@ const practice_intermission = {
 
 const practice_end = {
     type: jsPsychHtmlKeyboardResponse,
-    stimulus:
-    debug ? "<div></div>" :
-    `<div style="padding-bottom: 350px; max-width: 800px; margin: 40px auto; font-size: 24px;">
-    <p style="text-align: justify; margin: 0;">A gyakorló rész véget ért. A kísérleti blokkok következnek.<br> 
-        A kísérleti blokkokban nem fogsz visszajelzést kapni, ha túl lassú, vagy hibás választ adtál.<br>
-        Ne feledd, <span style="color: #FF3B3B; font-weight: bold;">piros</span> próbák esetén 17 garast vonunk le tőled.<br>
-        <span style="color: #00E676; font-weight: bold;">Zöld</span> próbák esetén 17 garast kapsz.<br>
-        Ha készen állsz, nyomd meg a space billentyűt a kezdéshez.<span style="display:inline-block; width:100%;"></span></p></div>
-        <img src="NEWinstruction_pic.png" alt="Hand placement instructions" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 55%;max-width: 600px;">`,
+    stimulus: function() {
+        if (debug) {
+            return "<div></div>";
+        }
+        return experiment_text[lang]["practice_end"];
+    },
   choices: debug ? ["NO_KEYS"] : [" "],
   trial_duration: debug ? 1 : null,
   on_finish: function() {
@@ -373,10 +299,10 @@ const prac_feedback = {
         if (debug) return "<div></div>";
         const last = jsPsych.data.getLastTrialData().values()[0];
         if(last.rt === null || last.rt > practice.cutoff) {
-            return "<div style='font-size:35px;'>Túl lassú!</div>";
+            return experiment_text[lang]["practice_feedback_slow"];
         }
         if (!last.correct) {
-            return "<div style='font-size:35px;'>Hibás válasz!</div>";
+            return experiment_text[lang]["practice_feedback_incorrect"];
         }
         return "<div></div>";
     },
@@ -428,8 +354,15 @@ timeline.push(practice_instructions, practice_blocks[0], practice_intermission, 
 //Main experiment blocks
 const block_intro = (block_index) => ({
     type:jsPsychHtmlKeyboardResponse,
-    stimulus: `<div style="text-align:center; font-size:24px;">
-                <h2>Blokk ${block_index + 1} kezdődik</h2></div>`,
+    stimulus: () => {
+        if (lang === "eng") {
+            return `<div style="text-align:center; font-size:24px;">
+                <h2>Block ${block_index + 1} is starting</h2></div>`;
+        } else {
+            return `<div style="text-align:center; font-size:24px;">
+                <h2>Blokk ${block_index + 1} kezdődik</h2></div>`;
+        }
+    },    
     choices: 'NO_KEYS',
     trial_duration: debug ? 500 : 2000
     }
@@ -457,6 +390,16 @@ const block_intermission = {
   type: jsPsychHtmlKeyboardResponse,
   stimulus: function() {
     const money_color = money < 2000 ? "#FF3B3B" : (money > 2000 ? "#28a745" : "#ffffff");
+    if (lang === "eng") {
+        return `
+      <div style="text-align: center; max-width: 800px; margin: auto; font-size: 24px">
+        <p><strong>End of block.</strong></p>
+        <p>You currently have <strong style="color: ${money_color};">${money} coins</strong>. When you are ready, press any key to continue.</p>
+        <p>Take a short break, then press any key to start the next block.</p>
+        <p><strong>The next block will automatically start in 2 minutes.</strong></p>
+        <p id="timer" style="font-size: 28px; color: darkred;">Starting in: 2:00</p>
+      </div>`;
+    }     
     return `
       <div style="text-align: center; max-width: 800px; margin: auto; font-size: 24px">
         <p><strong>Blokk vége.</strong></p>
@@ -495,13 +438,19 @@ experimental_blocks.forEach((block, index) => {
 //End of experiment
 const experiment_end = {
   type: jsPsychHtmlButtonResponse,
-  stimulus: `
-      <h2>Kísérlet vége</h2>
-      <h3>Összesen <strong>${money} garasod</strong> van.</h3>
-      <h>Köszönjük, hogy részt vettél a vizsgálatban!</h3>
-      
-      <p>Hogy megkaphasd a pontjaidat, nyomd meg a "Vége" gombot</p>`,
-  choices: ["Vége"],
+  stimulus: () => {
+    if (lang === "eng") {
+        return `<h2>End of experiment</h2>
+      		<h3>You have <strong>${money} coins</strong>. </h3>
+            <h3>Thank you for participating in the study!</h3>
+            <p>To receive your points, please press the "Finish" button.</p>`;
+    }
+    return `<h2>Kísérlet vége</h2>
+      		<h3>Összesen <strong>${money} garasod</strong> van.</h3>
+            <h>Köszönjük, hogy részt vettél a vizsgálatban!</h3>
+            <p>Hogy megkaphasd a pontjaidat, nyomd meg a "Vége" gombot</p>`
+  },
+  choices: [experiment_text[lang]["finish"]],
 };
 
 //Adding full experiment and end trial to timeline
