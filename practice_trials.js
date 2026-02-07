@@ -1,8 +1,8 @@
 const prime_probe_prac_trials = {
   "trials_block1": [
       {
-        "prime": "le\nle\nle",
-        "probe": "le",
+        "prime": "downprime",
+        "probe": "downprobe",
         "congruency": "congruent",
         "correct_response": "n",
         "name": "magenta_vertical_con_1",
@@ -10,8 +10,8 @@ const prime_probe_prac_trials = {
         "color": "magenta"
       },
       {
-        "prime": "bal\nbal\nbal",
-        "probe": "jobb",
+        "prime": "leftprime",
+        "probe": "rightprobe",
         "congruency": "incongruent",
         "correct_response": "l",
         "name": "blue_horizontal_incon_1",
@@ -19,8 +19,8 @@ const prime_probe_prac_trials = {
         "monetary": 0
       },
       {
-        "prime": "le\nle\nle",
-        "probe": "fel",
+        "prime": "downprime",
+        "probe": "upprobe",
         "congruency": "incongruent",
         "correct_response": "e",
         "name": "yellow_vertical_incon_2",
@@ -28,8 +28,8 @@ const prime_probe_prac_trials = {
         "monetary": 0
       },
       {
-        "prime": "jobb\njobb\njobb",
-        "probe": "jobb",
+        "prime": "rightprime",
+        "probe": "rightprobe",
         "congruency": "congruent",
         "correct_response": "l",
         "name": "blue_horizontal_con_2",
@@ -37,8 +37,8 @@ const prime_probe_prac_trials = {
         "monetary": 0
       },
       {
-        "prime": "fel\nfel\nfel",
-        "probe": "le",
+        "prime": "upprime",
+        "probe": "downprobe",
         "congruency": "incongruent",
         "correct_response": "n",
         "name": "red_vertical_incon_1",
@@ -46,8 +46,8 @@ const prime_probe_prac_trials = {
         "monetary": 1
       },
       {
-        "prime": "bal\nbal\nbal",
-        "probe": "bal",
+        "prime": "leftprime",
+        "probe": "leftprobe",
         "congruency": "congruent",
         "correct_response": "a",
         "name": "yellow_horizontal_con_1",
@@ -55,8 +55,8 @@ const prime_probe_prac_trials = {
         "monetary": 0
       },
       {
-        "prime": "fel\nfel\nfel",
-        "probe": "le",
+        "prime": "upprime",
+        "probe": "downprobe",
         "congruency": "incongruent",
         "correct_response": "n",
         "name": "magenta_vertical_incon_1",
@@ -64,8 +64,8 @@ const prime_probe_prac_trials = {
         "color": "magenta"
       },
       {
-        "prime": "jobb\njobb\njobb",
-        "probe": "jobb",
+        "prime": "rightprime",
+        "probe": "rightprobe",
         "congruency": "congruent",
         "correct_response": "l",
         "name": "blue_horizontal_con_2",
@@ -73,8 +73,8 @@ const prime_probe_prac_trials = {
         "monetary": 0
       },
       {
-        "prime": "le\nle\nle",
-        "probe": "fel",
+        "prime": "downprime",
+        "probe": "upprobe",
         "congruency": "incongruent",
         "correct_response": "e",
         "name": "magenta_vertical_incon_2",
@@ -82,8 +82,8 @@ const prime_probe_prac_trials = {
         "color": "magenta"
       },
       {
-        "prime": "bal\nbal\nbal",
-        "probe": "bal",
+        "prime": "leftprime",
+        "probe": "leftprobe",
         "congruency": "congruent",
         "correct_response": "a",
         "name": "green_horizontal_con_1",
@@ -91,8 +91,8 @@ const prime_probe_prac_trials = {
         "monetary": 1
       },
       {
-        "prime": "fel\nfel\nfel",
-        "probe": "fel",
+        "prime": "upprime",
+        "probe": "upprobe",
         "congruency": "congruent",
         "correct_response": "e",
         "name": "yellow_vertical_con_2",
@@ -100,8 +100,8 @@ const prime_probe_prac_trials = {
         "monetary": 0
       },
       {
-        "prime": "bal\nbal\nbal",
-        "probe": "jobb",
+        "prime": "leftprime",
+        "probe": "rightprobe",
         "congruency": "incongruent",
         "correct_response": "l",
         "name": "red_horizontal_incon_1",
@@ -109,8 +109,8 @@ const prime_probe_prac_trials = {
         "monetary": 1
       },
       {
-        "prime": "fel\nfel\nfel",
-        "probe": "le",
+        "prime": "upprime",
+        "probe": "downprobe",
         "congruency": "incongruent",
         "correct_response": "n",
         "name": "yellow_vertical_incon_1",
@@ -118,8 +118,8 @@ const prime_probe_prac_trials = {
         "monetary": 0
       },
       {
-        "prime": "jobb\njobb\njobb",
-        "probe": "jobb",
+        "prime": "rightprime",
+        "probe": "rightprobe",
         "congruency": "congruent",
         "correct_response": "l",
         "name": "blue_horizontal_con_2",
@@ -127,8 +127,8 @@ const prime_probe_prac_trials = {
         "monetary": 0
       },
        {
-        "prime": "fel\nfel\nfel",
-        "probe": "fel",
+        "prime": "upprime",
+        "probe": "upprobe",
         "congruency": "congruent",
         "correct_response": "e",
         "name": "red_vertical_con_2",
@@ -136,8 +136,8 @@ const prime_probe_prac_trials = {
         "monetary": 1
       },
       {
-        "prime": "jobb\njobb\njobb",
-        "probe": "bal",
+        "prime": "rightprime",
+        "probe": "leftprobe",
         "congruency": "incongruent",
         "correct_response": "a",
         "name": "green_horizontal_incon_2",
@@ -147,8 +147,8 @@ const prime_probe_prac_trials = {
 ],
   "trials_block2": [
       {
-        "prime": "jobb\njobb\njobb",
-        "probe": "bal",
+        "prime": "rightprime",
+        "probe": "leftprobe",
         "congruency": "incongruent",
         "correct_response": "a",
         "name": "yellow_horizontal_incon_2",
@@ -156,8 +156,8 @@ const prime_probe_prac_trials = {
         "monetary": 0
       },
       {
-        "prime": "fel\nfel\nfel",
-        "probe": "fel",
+        "prime": "upprime",
+        "probe": "upprobe",
         "congruency": "congruent",
         "correct_response": "e",
         "name": "green_vertical_con_2",
@@ -165,8 +165,8 @@ const prime_probe_prac_trials = {
         "monetary": 1
       },
       {
-        "prime": "bal\nbal\nbal",
-        "probe": "bal",
+        "prime": "leftprime",
+        "probe": "leftprobe",
         "congruency": "congruent",
         "correct_response": "a",
         "name": "magenta_horizontal_con_1",
@@ -174,8 +174,8 @@ const prime_probe_prac_trials = {
         "color": "magenta"
       },
       {
-        "prime": "le\nle\nle",
-        "probe": "le",
+        "prime": "downprime",
+        "probe": "downprobe",
         "congruency": "congruent",
         "correct_response": "n",
         "name": "blue_vertical_con_1",
@@ -183,8 +183,8 @@ const prime_probe_prac_trials = {
         "monetary": 0
       },
        {
-        "prime": "bal\nbal\nbal",
-        "probe": "jobb",
+        "prime": "leftprime",
+        "probe": "rightprobe",
         "congruency": "incongruent",
         "correct_response": "l",
         "name": "red_horizontal_incon_1",
@@ -192,8 +192,8 @@ const prime_probe_prac_trials = {
         "monetary": 1
       },
       {
-        "prime": "le\nle\nle",
-        "probe": "le",
+        "prime": "downprime",
+        "probe": "downprobe",
         "congruency": "congruent",
         "correct_response": "n",
         "name": "green_vertical_con_1",
@@ -201,8 +201,8 @@ const prime_probe_prac_trials = {
         "monetary": 1
       },
        {
-        "prime": "jobb\njobb\njobb",
-        "probe": "bal",
+        "prime": "rightprime",
+        "probe": "leftprobe",
         "congruency": "incongruent",
         "correct_response": "a",
         "name": "magenta_horizontal_incon_2",
@@ -210,8 +210,8 @@ const prime_probe_prac_trials = {
         "color": "magenta"
       },
       {
-        "prime": "le\nle\nle",
-        "probe": "fel",
+        "prime": "downprime",
+        "probe": "upprobe",
         "congruency": "incongruent",
         "correct_response": "e",
         "name": "red_vertical_incon_2",
@@ -219,8 +219,8 @@ const prime_probe_prac_trials = {
         "monetary": 1
       },
       {
-        "prime": "jobb\njobb\njobb",
-        "probe": "jobb",
+        "prime": "rightprime",
+        "probe": "rightprobe",
         "congruency": "congruent",
         "correct_response": "l",
         "name": "yellow_horizontal_con_2",
@@ -228,8 +228,8 @@ const prime_probe_prac_trials = {
         "monetary": 0
       },
       {
-        "prime": "fel\nfel\nfel",
-        "probe": "le",
+        "prime": "upprime",
+        "probe": "downprobe",
         "congruency": "incongruent",
         "correct_response": "n",
         "name": "blue_vertical_incon_1",
@@ -237,8 +237,8 @@ const prime_probe_prac_trials = {
         "monetary": 0
       },
        {
-        "prime": "jobb\njobb\njobb",
-        "probe": "bal",
+        "prime": "rightprime",
+        "probe": "leftprobe",
         "congruency": "incongruent",
         "correct_response": "a",
         "name": "yellow_horizontal_incon_2",
@@ -246,8 +246,8 @@ const prime_probe_prac_trials = {
         "monetary": 0
       },
       {
-        "prime": "le\nle\nle",
-        "probe": "le",
+        "prime": "downprime",
+        "probe": "downprobe",
         "congruency": "congruent",
         "correct_response": "n",
         "name": "green_vertical_con_1",
@@ -255,8 +255,8 @@ const prime_probe_prac_trials = {
         "monetary": 1
       },
        {
-        "prime": "bal\nbal\nbal",
-        "probe": "jobb",
+        "prime": "leftprime",
+        "probe": "rightprobe",
         "congruency": "incongruent",
         "correct_response": "l",
         "name": "magenta_horizontal_incon_1",
@@ -264,8 +264,8 @@ const prime_probe_prac_trials = {
         "color": "magenta"
       },
       {
-        "prime": "fel\nfel\nfel",
-        "probe": "fel",
+        "prime": "upprime",
+        "probe": "upprobe",
         "congruency": "congruent",
         "correct_response": "e",
         "name": "yellow_vertical_con_2",
@@ -273,8 +273,8 @@ const prime_probe_prac_trials = {
         "monetary": 0
       },
       {
-        "prime": "bal\nbal\nbal",
-        "probe": "bal",
+        "prime": "leftprime",
+        "probe": "leftprobe",
         "congruency": "congruent",
         "correct_response": "a",
         "name": "green_horizontal_con_1",
@@ -282,8 +282,8 @@ const prime_probe_prac_trials = {
         "monetary": 1
       },
       {
-        "prime": "le\nle\nle",
-        "probe": "fel",
+        "prime": "downprime",
+        "probe": "upprobe",
         "congruency": "incongruent",
         "correct_response": "e",
         "name": "blue_vertical_incon_2",
