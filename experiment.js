@@ -197,7 +197,8 @@ const informed_consent_trial = {
     response_ends_trial: true,
         on_finish: function(data) {
             if (data.response == 1) {
-                jsPsych.abortExperiment('<p style="text-align: justify; max-width: 800px; margin: auto; font-size: 24px; font-weight: bold">A kísérlet véget ért. Köszönjük, hogy részt vettél a vizsgálatban!</p>');
+                jsPsych.abortExperiment(`<p style="text-align: justify; max-width: 800px; margin: auto; font-size: 24px; font-weight: bold"> 
+                    ${lang === "eng" ? "The experiment is over. Thank you for participating in the study!" : "A kísérlet véget ért. Köszönjük, hogy részt vettél a vizsgálatban!"}</p>`);
             }
         }
 }
@@ -212,7 +213,8 @@ const data_handling_trial = {
     response_ends_trial: true,
         on_finish: function(data) {
             if (data.response == 1) {
-                jsPsych.abortExperiment('<p style="text-align: justify; max-width: 800px; margin: auto; font-size: 24px; font-weight: bold">A kísérlet véget ért. Köszönjük, hogy részt vettél a vizsgálatban!</p>');
+                jsPsych.abortExperiment(`<p style="text-align: justify; max-width: 800px; margin: auto; font-size: 24px; font-weight: bold"> 
+                    ${lang === "eng" ? "The experiment is over. Thank you for participating in the study!" : "A kísérlet véget ért. Köszönjük, hogy részt vettél a vizsgálatban!"}</p>`);
             }
         }
 }
