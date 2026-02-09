@@ -7,11 +7,11 @@ const experiment_text = {"hun":{
 	"upprime":"fel<br>fel<br>fel",
 	"leftprime":"bal<br>bal<br>bal",
 	"rightprime":"jobb<br>jobb<br>jobb",
-    "welcome":`<img src="University_logo.png" alt="University Logo" style="width: 300px; display: block; margin: auto;">
+    "welcome":`<img src="images/University_logo.png" alt="images/University Logo" style="width: 300px; display: block; margin: auto;">
             	<h2>Üdvözlünk a Metatudomány kutatócsoport vizsgálatában!</h2>
                 <p>Egy tudományos kutatásban veszel részt, amelynek vezetője Bognár Miklós, az ELTE Affektív Pszichológia Tanszékének kutatója. 
                 A kutatás célja megvizsgálni, hogy különböző ingertípusok miként hatnak a reakcióidőre.</p>
-                <h3>Részvétel</h3>
+              <h3>Részvétel</h3>
                 <p>A kutatásban való részvétel teljesen önkéntes. A vizsgálatot bármikor indoklás nélkül megszakíthatod. 
                 Ha bármilyen kérdésed, észrevételed vagy problémád van a kutatással kapcsolatban, írj Bognár Miklósnak a <a href="mailto:bognar.miklos@ppk.elte.hu">bognar.miklos@ppk.elte.hu</a> címre.</p>`,
 	"button_press":`Tovább`,
@@ -67,7 +67,7 @@ const experiment_text = {"hun":{
                 A jobb gyűrűsujjadat az <span class='key'>L</span>-re, ez fogja jelölni a "JOBB" irányt. 
                 A jobb mutató ujjadat helyezd az <span class='key'>N</span>-re, ez lesz a "LE" irány. 
                 Míg a bal középső ujjadat pedig tedd az <span class='key'>E</span>-re, ami a "FEL" irányt fogja jelölni! </p>
-                <img src="NEWinstruction_pic.png" alt="Hand placement instructions" style="width: 40%; height: 40%;">
+                <img src="images/instruction_pic.png" alt="Hand placement instructions" style="width: 40%; height: 40%;">
                 <p style="text-align: center;"><em>Amennyiben készen állsz a kísérlet megkezdésére, nyomd meg a space billentyűt!</em></p>`,
 	"practice_instruction":`<h2>Gyakorló blokk</h2>
             	<p>A kísérlet megkezdése előtt egy rövid gyakorló blokk következik. Törekedj a minél gyorsabb és pontosabb válaszadásra! 
@@ -85,7 +85,7 @@ const experiment_text = {"hun":{
         		Ne feledd, <span style="color: #FF3B3B; font-weight: bold;">piros</span> próbák esetén 17 garast vonunk le tőled.<br>
         		<span style="color: #00E676; font-weight: bold;">Zöld</span> próbák esetén 17 garast kapsz.<br>
         		Ha készen állsz, nyomd meg a space billentyűt a kezdéshez.<span style="display:inline-block; width:100%;"></span></p></div>
-        		<img src="NEWinstruction_pic.png" alt="Hand placement instructions" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 55%;max-width: 600px;">`,},
+        		<img src="images/instruction_pic.png" alt="Hand placement instructions" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 55%;max-width: 600px;">`,},
 "eng":{
 	"downprobe":"down",
 	"upprobe": "up",
@@ -95,7 +95,7 @@ const experiment_text = {"hun":{
 	"upprime":"up<br>up<br>up",
 	"leftprime":"left<br>left<br>left",
 	"rightprime":"right<br>right<br>right",
-	"welcome":`<img src="University_logo.png" alt="University Logo" style="width: 300px; display: block; margin: auto;">
+	"welcome":`<img src="images/University_logo.png" alt="University Logo" style="width: 300px; display: block; margin: auto;">
 				<h2>Welcome to the study of the Metascience lab!</h2>
 				<p>You are taking part in a scientific study led by Miklós Bognár, a researcher at the Department of Affective Psychology at Eötvös Loránd University (ELTE).
 				The aim of this study is to examine how different types of stimuli affect reaction time.</p>
@@ -160,7 +160,7 @@ const experiment_text = {"hun":{
 				Place your right ring finger on <span class='key'>L</span> — this will indicate "RIGHT". 
 				Place your right index finger on <span class='key'>N</span> — this will indicate "DOWN". 
 				Finally, place your left middle finger on <span class='key'>E</span> — this will indicate "UP".</p>
-				<img src="NEWinstruction_pic.png" alt="Hand placement instructions" style="width: 40%; height: 40%;">
+				<img src="images/instruction_pic.png" alt="Hand placement instructions" style="width: 40%; height: 40%;">
 				<p style="text-align: center;"><em>When you are ready to begin the experiment, press the spacebar!</em></p>`,
 	"practice_instruction":`<h2>Practice Block</h2>
 				<p>Before the main experiment begins, you will complete a short practice block. Try to respond as quickly and accurately as possible! 
@@ -179,5 +179,5 @@ const experiment_text = {"hun":{
 				Remember, <span style="color: #FF3B3B; font-weight: bold;">red</span> trials will deduct 17 coins from your total.
 				<span style="color: #00E676; font-weight: bold;">Green</span> trials will add 17 coins to your total.<br>
 				When you are ready, press the spacebar to begin.<span style="display:inline-block; width:100%;"></span></p></div>
-				<img src="NEWinstruction_pic.png" alt="Hand placement instructions" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 55%; max-width: 600px;">`
+				<img src="images/instruction_pic.png" alt="Hand placement instructions" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 55%; max-width: 600px;">`
 }}
