@@ -25,9 +25,9 @@ console.log('Experiment number: ', experiment_number);
 //Initialize jsPsych
     const jsPsych = initJsPsych({
 	    on_trial_start() => {
-	lang = jatos.urlQueryParameters.lang || "hun";
-	debug = jatos.urlQueryParameters.debug === "1" ? 1: 0;
-	experiment_number = jatos.urlQueryParameters.exp === "2" ? 2 : 1;
+	var lang = jatos.urlQueryParameters.lang || "hun";
+	var debug = jatos.urlQueryParameters.debug === "1" ? 1: 0;
+	var experiment_number = jatos.urlQueryParameters.exp === "2" ? 2 : 1;
 	    },
         on_finish: () => {
             if (running_jatos) {
