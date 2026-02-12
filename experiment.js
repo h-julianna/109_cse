@@ -6,16 +6,13 @@
 const running_jatos = (typeof jatos !== `undefined`)
 
 //URL parameters
-let debug = 0;
-let lang = "hun";
-let experiment_number = 1;
-// Get URL parameters for language and debug mode)
+/ Get URL parameters for language and debug mode)
 let queryString = window.location.search;
 let urlParams = new URLSearchParams(queryString);
 if(running_jatos == false){
-	lang = urlParams.get("lang") || "hun";
-	debug = urlParams.get("debug") === "1" ? 1 : 0;
-	experiment_number = urlParams.get("exp") === "2" ? 2 : 1;
+	var lang = urlParams.get("lang") || "hun";
+	var debug = urlParams.get("debug") === "1" ? 1 : 0;
+	var experiment_number = urlParams.get("exp") === "2" ? 2 : 1;
 }
 console.log('Running in JATOS: ', running_jatos);
 console.log('Debug mode: ', debug);
@@ -24,10 +21,12 @@ console.log('Experiment number: ', experiment_number);
 
 //Initialize jsPsych
     const jsPsych = initJsPsych({
-	    on_trial_start() => {
+	    on_trial_start: () => {
+		    if(running_jatos){
 	var lang = jatos.urlQueryParameters.lang || "hun";
 	var debug = jatos.urlQueryParameters.debug === "1" ? 1: 0;
 	var experiment_number = jatos.urlQueryParameters.exp === "2" ? 2 : 1;
+		    }
 	    },
         on_finish: () => {
             if (running_jatos) {
