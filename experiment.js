@@ -8,16 +8,24 @@ const running_jatos = (typeof jatos !== `undefined`)
 //URL parameters
 let debug = 0;
 let lang = "hun";
-
+let experiment_number = 1;
 // Get URL parameters for language and debug mode)
 let queryString = window.location.search;
 let urlParams = new URLSearchParams(queryString);
-lang = urlParams.get("lang") || "hun";
-debug = urlParams.get("debug") === "1" ? 1 : 0;
+if(running_jatos){
+	lang = jatos.urlQueryParameters.lang || "hun";
+	debug = jatos.urlQueryParameters.debug === "1" ? 1: 0;
+	experiment_number = jatos.urlQueryParameters.exp === "2" ? 2 : 1;
 
-console.log('Running in JATOS:', running_jatos);
-console.log('Debug mode:', debug);
-console.log('Language:', lang);
+}else{
+	lang = urlParams.get("lang") || "hun";
+	debug = urlParams.get("debug") === "1" ? 1 : 0;
+	experiment_number = urlParams.get("exp") === "2" ? 2 : 1;
+}
+console.log('Running in JATOS: ', running_jatos);
+console.log('Debug mode: ', debug);
+console.log('Language: ', lang);
+console.log('Experiment number: ', experiment_number);
 
 //Initialize jsPsych
     const jsPsych = initJsPsych({
@@ -59,8 +67,13 @@ const prime = {
     	primestim = jsPsych.evaluateTimelineVariable('prime')
 	console.log(primestim)
 	myprime = experiment_text[lang][primestim]
-	return `<span style="font-size:40px;">${myprime}</span>`
-    },
+	primecolor = jsPsych.evaluateTimelineVariable('color')
+	 if(experiment_number == 2){
+	    	return `<span style="font-size:40px; color:${stim_colors[primecolor]};">${myprime}</span>`
+	    }else{
+		return `<span style="font-size:40px;">${myprime}</span>`
+	    }
+   },
     choices: 'NO_KEYS',
     trial_duration: durations.prime_duration,
     data: {
@@ -84,10 +97,15 @@ const probe = {
     type: jsPsychHtmlKeyboardResponse,
     stimulus: function(){
 	    probestim = jsPsych.evaluateTimelineVariable('probe')
-        console.log(probestim)
+	    console.log(probestim)
 	    probecolor = jsPsych.evaluateTimelineVariable('color')
 	    myprobe = experiment_text[lang][probestim]
-	    return `<span style="font-size:40px; color:${probe_colors[probecolor]};">${myprobe}</span>`},
+	    if(experiment_number == 1){
+	    	return `<span style="font-size:40px; color:${stim_colors[probecolor]};">${myprobe}</span>`
+	    }else{
+		return `<span style="font-size:40px;">${myprobe}</span>`
+	    }
+    },
     choices: ['a', 'A', 'e', 'E', 'n', 'N', 'l', 'L'],
     stimulus_duration: durations.probe_stim_duration,
     trial_duration: durations.probe_trial_duration,
@@ -98,7 +116,8 @@ const probe = {
         congruency: jsPsych.timelineVariable('congruency'),
         color: jsPsych.timelineVariable('color'),
         monetary: jsPsych.timelineVariable('monetary'),
-        name: jsPsych.timelineVariable('name')
+        name: jsPsych.timelineVariable('name'),
+	    experiment: experiment_number
     },
     on_finish: function (data) {
         console.log('Response data:', data);
@@ -138,7 +157,7 @@ console.log(subj_code);
 jsPsych.data.addProperties({subj_code: subj_code}); 
 
 //Preparing stimulus variables
-const probe_colors = {
+const stim_colors = {
     red: "#FF3B3B",
     green: "#28a745",
     blue: "#2979FF",
