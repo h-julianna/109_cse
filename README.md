@@ -68,4 +68,4 @@ When all three stages pass, the trial set is appended to `trials.json`.
 
 ## More information
 
-For a full description of the project and its methodology, please visit the project's OSF repository.
+For a full description of the project and its methodology, please visit the project's OSF repository (https://osf.io/hwa7v).
