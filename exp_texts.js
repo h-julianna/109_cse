@@ -64,7 +64,7 @@ const experiment_text = {"hun":{
                 <p>A kísérletet {{MONEY}} garassal kezded. Amikor a célinger <span style="color: #FF3B3B; font-weight: bold;">piros</span> színű, akkor 47 garast vonunk le tőled.
                 Ha viszont <span style="color: #00E676; font-weight: bold;">zöld</span> színű célingert látsz, 47 garas a jutalmad. 
                 A neutrális próbákat három szín fogja jelölni: <span style="color: #2979FF; font-weight: bold;">kék</span>, <span style="color: #FFD700; font-weight: bold;">sárga</span> és <span style="color: #E040FB; font-weight: bold;">rózsaszín</span>. Ezeknél a próbáknál sem jutalom, sem büntetés nem jár.</p> 
-								<p>Minden blokk végén látni fogod, mennyi garassal rendelkezel. Az utolsó blokk végén a kísérletért járó pontszám az eredményedtől függ: 1800 garas alatt 2,5 pont, 2200 garas felett 3,5 pont, a kettő között pedig a kiinduló 3 pont marad. </p>
+								<p>Minden blokk végén látni fogod, mennyi garassal rendelkezel. Az utolsó blokk végén a kísérletért járó pontszám az eredményedtől függ: ha 2000 alatt van, 2,5 pontot kapsz, ha pedig 2000 fölött van, 3,5 pontot. Ha a megadott határokon belül teljesítesz, 3 pontot kapsz a kitöltésért. </p>
 								<h3>Figyelem: A pontszerzés feltétele, hogy az ingerek minimum 60%-át helyesen megválaszold.</h3>
 								<h3>60%-os teljesítmény alatt (túl lassú, vagy pontatlan válaszoknál) 0 pontot kapsz a kísérletre. </h3>
                 <p>Kérlek helyezd a billentyűzetre a kezedet a képen látható módon:</p>
@@ -84,7 +84,7 @@ const experiment_text = {"hun":{
                 A neutrális próbákon (<span style="color: #2979FF; font-weight: bold;">kék</span>, <span style="color: #FFD700; font-weight: bold;">sárga</span> és <span style="color: #E040FB; font-weight: bold;">rózsaszín</span>) sem jutalom, sem levonás nem jár.</p> 
 <h3>Minden ingerre, minden esetben, a színétől függetlenül válaszolj!</h3>
 <img src="images/probe_press_hun.png" alt="Hand placement instructions" style="width: 40%; height: 40%;">
-                <p> Minden blokk végén látni fogod, mennyi garassal rendelkezel. Az utolsó blokk végén a kísérletért járó pontszám az eredményedtől függ: 1800 garas alatt 2,5 pont, 2200 garas felett 3,5 pont, a kettő között pedig a kiinduló 3 pont marad. </p>
+                <p> Minden blokk végén látni fogod, mennyi garassal rendelkezel. Az utolsó blokk végén a kísérletért járó pontszám az eredményedtől függ: ha 2000 alatt van, 2,5 pontot kapsz, ha pedig 2000 fölött van, 3,5 pontot. Ha a megadott határokon belül teljesítesz, 3 pontot kapsz a kitöltésért. </p>
 								<h3>Figyelem: A pontszerzés feltétele, hogy az ingerek minimum 60%-át helyesen megválaszold.</h3>
 								<h3>60%-os teljesítmény alatt (túl lassú, vagy pontatlan válaszoknál) 0 pontot kapsz a kísérletre. </h3>
                 <p>Kérlek helyezd a billentyűzetre a kezedet a képen látható módon:</p>
