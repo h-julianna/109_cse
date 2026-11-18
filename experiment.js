@@ -772,7 +772,7 @@ try {
 }catch (error){ 
 	var lang = urlParams.get("lang") || "hun";
 	var debug = urlParams.get("debug") === "1" ? 1 : 0;
-	var experiment_number = urlParams.get("exp") === "2" ? 2 : 1;
+	var experiment_number = urlParams.get("exp") === "1" ? 1 : 2;
 	    console.log("Jatos was NOT loaded, starting experiment in vanilla mode...")
 	my_timeline = main_experiment(debug,lang, experiment_number, experiment_text) 
 	startExperiment(my_timeline)
