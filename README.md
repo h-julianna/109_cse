@@ -4,7 +4,7 @@ This repository contains the full experimental code used in a study conducted by
 
 ## Running the experiment
 
-This experiment is a web-based task built using HTML, Python, JavaScript and the jsPsych library. It is compatible with JATOS for online deployment and data collection. To use it, the latest version of jsPsych is required.
+This experiment is a web-based task built using HTML, Python, JavaScript and the jsPsych library. It is compatible with JATOS for online deployment and data collection. To use it, the latest version of jsPsych is required. If jspsych is not downloaded to your computer visit the jsypch home page (https://www.jspsych.org). Go to -> 'Tutorials' -> 'The Basics: Hello Word'. On the right panel go to 'Option 2: Download and host jsPsych' and 'Step 1: Download jsPsych'. Here click on the direct link (jspsych.zip). Download the zip file to your desired folder where you pulled the other files from this repository. Unzip it and make sure to keep the folder name "jspsych". After this, you can try the experiment by opening the `109_cse.html` file.
 
 ### Hosting locally
 
@@ -22,7 +22,7 @@ This experiment is a web-based task built using HTML, Python, JavaScript and the
 
 ### Language
 
-The experiment is available in English and Hungarian (default). Language can be changed using URL parameters (lang=eng/lang=hun).
+The experiment is available in English and Hungarian (default). Language can be changed using URL parameters (lang=eng/lang=hun). Just click in the url in your browser and include the following line to switch to the English version of the task: `?lang=eng`
 
 ### Debugging
 
